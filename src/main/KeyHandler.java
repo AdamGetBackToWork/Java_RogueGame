@@ -1,11 +1,11 @@
-package Projekt;
+package Projekt.src.main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyboardInput implements KeyListener{
+public class KeyHandler implements KeyListener{
 
-    public boolean upPress, downPress, leftPress, rightPress;
+    public boolean upPress, downPress, leftPress, rightPress, elsePress;
 
     @Override
     public void keyTyped(KeyEvent e){
@@ -28,7 +28,9 @@ public class KeyboardInput implements KeyListener{
         if(code == KeyEvent.VK_D){
             rightPress = true;
         }
-        
+        if (!(code == KeyEvent.VK_W || code == KeyEvent.VK_A || code == KeyEvent.VK_S || code == KeyEvent.VK_D)) {
+            elsePress = true;
+        }
     }
 
     @Override
@@ -47,6 +49,9 @@ public class KeyboardInput implements KeyListener{
         }
         if(code == KeyEvent.VK_D){
             rightPress = false;
+        }
+        if (!(code == KeyEvent.VK_W || code == KeyEvent.VK_A || code == KeyEvent.VK_S || code == KeyEvent.VK_D)) {
+            elsePress = false;
         }
     }
 }
