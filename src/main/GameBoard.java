@@ -1,14 +1,14 @@
-package Projekt.src.main;
+package main;
+
+import background.TileHandler;
+import entity.Player;
 
 import javax.swing.JPanel;
-
-import Projekt.src.bgr.TileHandler;
-import Projekt.src.entity.Player;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 
 public class GameBoard extends JPanel implements Runnable {
     

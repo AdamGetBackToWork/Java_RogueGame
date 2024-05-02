@@ -1,14 +1,18 @@
-package Projekt.src.entity;
+package entity;
+
+// package Projekt.src.entity;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.awt.Color;
+// import java.awt.Color;
 
 import javax.imageio.ImageIO;
 
-import Projekt.src.main.GameBoard;
-import Projekt.src.main.KeyHandler;
+import background.Tile;
+import main.GameBoard;
+import main.KeyHandler;
 
 public class Player extends Entity{
     
@@ -32,31 +36,56 @@ public class Player extends Entity{
 
     public void getPlayerGraphic(){
         
-        String testPath1 = "Projekt\\res\\player\\mafia1_up_1.png";
-        String testPath2 = "Projekt\\res\\player\\mafia1_down_1.png";
-        String testPath3 = "Projekt\\res\\player\\mafia1_left_1.png";
-        String testPath4 = "Projekt\\res\\player\\mafia1_right_1.png";
+        // String testPath1 = "res\\player\\mafia1_up_1.png";
+        // String testPath2 = "res\\player\\mafia1_down_1.png";
+        // String testPath3 = "res\\player\\mafia1_left_1.png";
+        // String testPath4 = "res\\player\\mafia1_right_1.png";
+
+        File file0 = new File("res\\player\\mafia1_up_1.png");
+        File file1 = new File("res\\player\\mafia1_down_1.png");
+        File file2 = new File("res\\player\\mafia1_left_1.png");
+        File file3 = new File("res\\player\\mafia1_right_1.png");
 
         try {
-            up1 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
-            up2 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
-            up3 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
-            up4 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
+            // up1 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
+            // up2 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
+            // up3 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
+            // up4 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
 
-            down1 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
-            down2 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
-            down3 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
-            down4 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
+            // down1 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
+            // down2 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
+            // down3 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
+            // down4 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
 
-            left1 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
-            left2 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
-            left3 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
-            left4 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
+            // left1 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
+            // left2 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
+            // left3 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
+            // left4 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
 
-            right1 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
-            right2 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
-            right3 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
-            right4 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
+            // right1 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
+            // right2 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
+            // right3 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
+            // right4 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
+
+            up1 = ImageIO.read(file0); 
+            up2 = ImageIO.read(file0);
+            up3 = ImageIO.read(file0);
+            up4 = ImageIO.read(file0);
+
+            down1 = ImageIO.read(file1);
+            down2 = ImageIO.read(file1);
+            down3 = ImageIO.read(file1);
+            down4 = ImageIO.read(file1);
+
+            left1 = ImageIO.read(file2);
+            left2 = ImageIO.read(file2);
+            left3 = ImageIO.read(file2);
+            left4 = ImageIO.read(file2);
+
+            right1 = ImageIO.read(file3);
+            right2 = ImageIO.read(file3);
+            right3 = ImageIO.read(file3);
+            right4 = ImageIO.read(file3);
 
         } catch (IOException e) {
             e.printStackTrace();

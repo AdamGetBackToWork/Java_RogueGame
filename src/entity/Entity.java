@@ -1,4 +1,6 @@
-package Projekt.src.entity;
+package entity;
+
+// package Projekt.src.entity;
 
 import java.awt.image.BufferedImage;
 
