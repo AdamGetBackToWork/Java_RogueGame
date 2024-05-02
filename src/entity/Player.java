@@ -15,10 +15,16 @@ public class Player extends Entity{
     GameBoard gb;
     KeyHandler kh; 
 
+    public final int screenX;
+    public final int screenY;
+
     public Player(GameBoard gb, KeyHandler kh){
         
         this.gb = gb;
         this.kh = kh; 
+
+        screenX = gb.screenWidth/2 - (gb.finalTileSize/2);
+        screenY = gb.screenHeight/2 - (gb.finalTileSize/2);
 
         setDefault();
         getPlayerGraphic();
@@ -58,30 +64,28 @@ public class Player extends Entity{
     }
 
     public void setDefault(){
-        x = 100;
-        y = 100;
+        worldX = gb.finalTileSize * 17;
+        worldY = gb.finalTileSize * 12;
         moveSpeed = 4;
         direction = "down";
     }
 
-
-
     public void update(){
         if(kh.upPress == true){
             direction = "up";
-            y -= moveSpeed;
+            worldY -= moveSpeed;
         }
         else if(kh.downPress == true){
             direction = "down";
-            y += moveSpeed;
+            worldY += moveSpeed;
         }
         else if(kh.leftPress == true){
             direction = "left";
-            x -= moveSpeed;
+            worldX -= moveSpeed;
         }
         else if(kh.rightPress == true){
             direction = "right";
-            x += moveSpeed;
+            worldX += moveSpeed;
         }
 
         if (kh.upPress == true || kh.downPress == true || kh.leftPress == true || kh.rightPress == true){
@@ -108,9 +112,6 @@ public class Player extends Entity{
     }
 
     public void draw(Graphics2D g2){
-
-        // g2.setColor(Color.white);
-        // g2.fillRect(x, y, gb.finalTileSize, gb.finalTileSize);
 
         BufferedImage image = null;
 
@@ -175,6 +176,6 @@ public class Player extends Entity{
             image = down1;
             break;                
         }
-        g2.drawImage(image,x,y,gb.finalTileSize,gb.finalTileSize,null);
+        g2.drawImage(image,screenX,screenY,gb.finalTileSize,gb.finalTileSize,null);
     }
 }

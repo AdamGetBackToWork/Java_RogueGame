@@ -22,10 +22,10 @@ public class TileHandler{
 
         this.gb = gb;
         tile = new Tile[10]; // Number of diff tiles in a game
-        tileNum = new int[gb.screenColumns][gb.screenRows];
+        tileNum = new int[gb.maxWorldCol][gb.maxWorldRow];
 
         getTileImage();
-        loadMap("/Projekt/res/maps/testmap.txt");
+        loadMap("/Projekt/res/maps/testmap2.txt");
     }
 
     public void getTileImage(){
@@ -33,15 +33,19 @@ public class TileHandler{
         String testPath1 = "Projekt\\res\\background\\ground.png";
         String testPath2 = "Projekt\\res\\background\\stone.png";
         String testPath3 = "Projekt\\res\\background\\bricks.png";
+        String testPath4 = "Projekt\\res\\background\\black.png";
 
         try {
             tile[0] = new Tile();
             tile[1] = new Tile();
             tile[2] = new Tile();
+            tile[3] = new Tile();
 
             tile[0].image = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
             tile[1].image = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
             tile[2].image = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
+            tile[3].image = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
+            
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,12 +99,12 @@ public class TileHandler{
             int col = 0;
             int row = 0;
 
-            while (scanner.hasNextLine() && row < gb.screenRows) {
+            while (scanner.hasNextLine() && row < gb.maxWorldRow) {
                 String line = scanner.nextLine();
                 String[] numbers = line.split("\\s+");
 
                 for (String number : numbers) {
-                    if (col < gb.screenColumns) {
+                    if (col < gb.maxWorldCol) {
                         int num = Integer.parseInt(number);
                         tileNum[col][row] = num;
                         col++;
@@ -120,26 +124,33 @@ public class TileHandler{
 
     public void draw(Graphics2D g2){
        
-        g2.drawImage(tile[0].image, 0,0,gb.finalTileSize,gb.finalTileSize,null);
+        // g2.drawImage(tile[0].image, 0,0,gb.finalTileSize,gb.finalTileSize,null);
         
-        int col = 0; 
-        int row = 0;
-        int x = 0;
-        int y = 0;
+        int worldCol = 0; 
+        int worldRow = 0;
 
-        while (col < gb.screenColumns && row < gb.screenRows){
-            
-            int drawTileNum = tileNum[col][row];
 
-            g2.drawImage(tile[drawTileNum].image, x,y,gb.finalTileSize,gb.finalTileSize,null);
-            col++;
-            x += gb.finalTileSize;
+        while (worldCol < gb.maxWorldCol && worldRow < gb.maxWorldRow){
             
-            if (col == gb.screenColumns){
-                col = 0;
-                x = 0;
-                row++;
-                y += gb.finalTileSize;
+            int drawTileNum = tileNum[worldCol][worldRow];
+
+            int worldX = worldCol * gb.finalTileSize;
+            int worldY = worldRow * gb.finalTileSize;
+            int screenX = worldX - gb.player.worldX + gb.player.screenX;
+            int screenY = worldY - gb.player.worldY + gb.player.screenY;
+            
+            if(worldX > gb.player.worldX - gb.player.screenX - gb.finalTileSize && 
+                worldX < gb.player.worldX + gb.player.screenX + gb.finalTileSize && 
+                worldY> gb.player.worldY - gb.player.screenY - gb.finalTileSize && 
+                worldY < gb.player.worldY + gb.player.screenY + gb.finalTileSize){
+                    g2.drawImage(tile[drawTileNum].image,screenX,screenY,gb.finalTileSize,gb.finalTileSize,null);
+                }
+
+            worldCol++;
+            
+            if (worldCol == gb.maxWorldCol){
+                worldCol = 0;
+                worldRow++;
             }
         }
     
