@@ -12,7 +12,6 @@ import java.awt.Graphics2D;
 
 public class GameBoard extends JPanel implements Runnable {
     
-
     // Ustawienia ekranu i skalowanie 16-bitowej grafiki
     final int tileSize = 16;
     final int scale = 3;   //
@@ -31,8 +30,6 @@ public class GameBoard extends JPanel implements Runnable {
     public final int worldWidth = finalTileSize * maxWorldCol;
     public final int worldHeight = finalTileSize * maxWorldRow;
     
-
-
     // FPS
     int FPS = 60;
 
