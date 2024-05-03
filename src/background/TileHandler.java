@@ -51,10 +51,12 @@ public class TileHandler {
             tile[3] = new Tile();
 
             
-            tile[0].image = ImageIO.read(file0); 
+            tile[0].image = ImageIO.read(file0);  
             tile[1].image = ImageIO.read(file1); 
             tile[2].image = ImageIO.read(file2); 
             tile[3].image = ImageIO.read(file3); 
+
+            tile[3].collision = true;
 
             // tile[0].image = ImageIO.read(getClass().getResourceAsStream(testPath1));
             // tile[0].image = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
