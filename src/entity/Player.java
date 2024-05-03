@@ -41,10 +41,29 @@ public class Player extends Entity{
         // String testPath3 = "res\\player\\mafia1_left_1.png";
         // String testPath4 = "res\\player\\mafia1_right_1.png";
 
-        File file0 = new File("res\\player\\mafia1_up_1.png");
-        File file1 = new File("res\\player\\mafia1_down_1.png");
-        File file2 = new File("res\\player\\mafia1_left_1.png");
-        File file3 = new File("res\\player\\mafia1_right_1.png");
+        // Going up - back of the player
+        File file01 = new File("res\\player\\back\\back1.png");
+        File file02 = new File("res\\player\\back\\back2.png");
+        File file03 = new File("res\\player\\back\\back1.png");
+        File file04 = new File("res\\player\\back\\back4.png");
+
+        // Going down - front of the player
+        File file11 = new File("res\\player\\front\\front1.png");
+        File file12 = new File("res\\player\\front\\front2.png");
+        File file13 = new File("res\\player\\front\\front1.png");
+        File file14 = new File("res\\player\\front\\front4.png");
+
+        // Going left - left side of the player
+        File file21 = new File("res\\player\\left\\left1.png");
+        File file22 = new File("res\\player\\left\\left2.png");
+        File file23 = new File("res\\player\\left\\left1.png");
+        File file24 = new File("res\\player\\left\\left4.png");
+
+        // Going right - right side of the player
+        File file31 = new File("res\\player\\right\\right1.png");
+        File file32 = new File("res\\player\\right\\right2.png");
+        File file33 = new File("res\\player\\right\\right1.png");
+        File file34 = new File("res\\player\\right\\right4.png");
 
         try {
             // up1 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
@@ -67,25 +86,25 @@ public class Player extends Entity{
             // right3 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
             // right4 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
 
-            up1 = ImageIO.read(file0); 
-            up2 = ImageIO.read(file0);
-            up3 = ImageIO.read(file0);
-            up4 = ImageIO.read(file0);
+            up1 = ImageIO.read(file01); 
+            up2 = ImageIO.read(file02);
+            up3 = ImageIO.read(file03);
+            up4 = ImageIO.read(file04);
 
-            down1 = ImageIO.read(file1);
-            down2 = ImageIO.read(file1);
-            down3 = ImageIO.read(file1);
-            down4 = ImageIO.read(file1);
+            down1 = ImageIO.read(file11);
+            down2 = ImageIO.read(file12);
+            down3 = ImageIO.read(file13);
+            down4 = ImageIO.read(file14);
 
-            left1 = ImageIO.read(file2);
-            left2 = ImageIO.read(file2);
-            left3 = ImageIO.read(file2);
-            left4 = ImageIO.read(file2);
+            left1 = ImageIO.read(file21);
+            left2 = ImageIO.read(file22);
+            left3 = ImageIO.read(file23);
+            left4 = ImageIO.read(file24);
 
-            right1 = ImageIO.read(file3);
-            right2 = ImageIO.read(file3);
-            right3 = ImageIO.read(file3);
-            right4 = ImageIO.read(file3);
+            right1 = ImageIO.read(file31);
+            right2 = ImageIO.read(file32);
+            right3 = ImageIO.read(file33);
+            right4 = ImageIO.read(file34);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,7 +140,7 @@ public class Player extends Entity{
             spriteCount++;
         }
             
-        if(spriteCount > 14){
+        if(spriteCount > 8){
             if(spriteNum == 1){
                 spriteNum = 2;
             }
