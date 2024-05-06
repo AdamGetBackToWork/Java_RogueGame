@@ -36,6 +36,7 @@ public class GameBoard extends JPanel implements Runnable {
     TileHandler th = new TileHandler(this);
     KeyHandler kh = new KeyHandler();
     Thread gameThread;
+    public CollisionHandler collisionHandler = new CollisionHandler(this);
     public Player player = new Player(this,kh);
 
     // konstruktor klasy

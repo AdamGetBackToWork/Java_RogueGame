@@ -3,6 +3,7 @@ package entity;
 // package Projekt.src.entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
 
+    private volatile BufferedImage lastDrawnSprite; 
+
     public Player(GameBoard gb, KeyHandler kh){
         
         this.gb = gb;
@@ -30,8 +33,12 @@ public class Player extends Entity{
         screenX = gb.screenWidth/2 - (gb.finalTileSize/2);
         screenY = gb.screenHeight/2 - (gb.finalTileSize/2);
 
+        solidRectangle = new Rectangle(8, 16, gb.finalTileSize/2, gb.finalTileSize/2);
+
         setDefault();
         getPlayerGraphic();
+
+        lastDrawnSprite = down1;
     }
 
     public void getPlayerGraphic(){
@@ -121,25 +128,43 @@ public class Player extends Entity{
     public void update(){
         if(kh.upPress == true){
             direction = "up";
-            worldY -= moveSpeed;
         }
         else if(kh.downPress == true){
             direction = "down";
-            worldY += moveSpeed;
         }
         else if(kh.leftPress == true){
             direction = "left";
-            worldX -= moveSpeed;
         }
         else if(kh.rightPress == true){
             direction = "right";
-            worldX += moveSpeed;
+        } else {
+            direction = "none";
         }
 
         if (kh.upPress == true || kh.downPress == true || kh.leftPress == true || kh.rightPress == true){
             spriteCount++;
         }
             
+        collisionState = false;
+        gb.collisionHandler.checkTile(this);
+
+        if(collisionState == false){
+            switch(direction){
+                case "up":
+                    worldY -= moveSpeed;
+                    break;
+                case "down":
+                    worldY += moveSpeed;
+                    break;
+                case "left":
+                    worldX -= moveSpeed;
+                    break;
+                case "right":
+                    worldX += moveSpeed;
+                    break;
+            }
+        }
+
         if(spriteCount > 8){
             if(spriteNum == 1){
                 spriteNum = 2;
@@ -221,9 +246,10 @@ public class Player extends Entity{
             }
             break;
         default:
-            image = down1;
+            image = lastDrawnSprite;
             break;                
         }
         g2.drawImage(image,screenX,screenY,gb.finalTileSize,gb.finalTileSize,null);
+        lastDrawnSprite = image;
     }
 }

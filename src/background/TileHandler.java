@@ -16,8 +16,8 @@ import javax.imageio.ImageIO;
 public class TileHandler {
     
     GameBoard gb;
-    Tile[] tile;
-    int tileNum[][];
+    public Tile[] tile;
+    public int tileNum[][];
 
     public TileHandler(GameBoard gb){
 
