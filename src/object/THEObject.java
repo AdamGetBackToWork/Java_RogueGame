@@ -1,6 +1,7 @@
 package object;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.GameBoard;
@@ -10,7 +11,10 @@ public class THEObject {
     public int worldY;
     public BufferedImage image;
     public String name;
-    public boolean collision;
+    public boolean collision = false;
+    public Rectangle solidArea = new Rectangle(0,0,48,48);
+    public int solidAreaX = 0;
+    public int solidAreaY = 0;
 
     public void drawCar(Graphics2D g2, GameBoard gb){
 

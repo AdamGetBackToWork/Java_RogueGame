@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import background.Tile;
 import main.GameBoard;
 import main.KeyHandler;
 
@@ -22,6 +21,8 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
+    int hasHeart = 0;
+    int hasGun = 0;
 
     private volatile BufferedImage lastDrawnSprite; 
 
@@ -34,6 +35,9 @@ public class Player extends Entity{
         screenY = gb.screenHeight/2 - (gb.finalTileSize/2);
 
         solidRectangle = new Rectangle(8, 16, gb.finalTileSize/2, gb.finalTileSize/2);
+
+        solidAreaX = solidRectangle.x;
+        solidAreaY = solidRectangle.y;
 
         setDefault();
         getPlayerGraphic();
@@ -147,6 +151,8 @@ public class Player extends Entity{
             
         collisionState = false;
         gb.collisionHandler.checkTile(this);
+        int objIndex = gb.collisionHandler.checkObject(this, true);
+        // takeObject(objIndex);
 
         if(collisionState == false){
             switch(direction){
@@ -182,6 +188,25 @@ public class Player extends Entity{
             spriteCount = 0;
         }
 
+    }
+
+    public void takeObject(int i){
+
+        if(i != 999){
+            String objectName = gb.obj[i].name;
+
+            switch(objectName){
+                case "Heart":
+                    hasHeart++;
+                    gb.obj[i] = null;
+                break;
+                case "Gun":
+                    hasGun++;
+                    gb.obj[i] = null;
+                break;
+            }
+            gb.obj[i] = null;
+        }
     }
 
     public void draw(Graphics2D g2){

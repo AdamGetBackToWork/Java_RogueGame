@@ -60,4 +60,77 @@ public class CollisionHandler {
         }
 
     }
+
+    public int checkObject(Entity entity, boolean player){
+
+        int index = 999;
+
+        for(int i = 0; i < gb.obj.length; i++){
+
+            if(gb.obj[i] != null){
+                entity.solidRectangle.x = entity.worldX + entity.solidRectangle.x;
+                entity.solidRectangle.y = entity.worldY + entity.solidRectangle.y;
+
+                gb.obj[i].solidArea.x = gb.obj[i].worldX + gb.obj[i].solidArea.x;
+                gb.obj[i].solidArea.y = gb.obj[i].worldY + gb.obj[i].solidArea.y;
+            
+                switch(entity.direction){
+                    case "up":
+                        entity.solidRectangle.y -= entity.moveSpeed;
+                        if(entity.solidRectangle.intersects(gb.obj[i].solidArea)){
+                            if(gb.obj[i].collision == true){
+                                entity.collisionState = true;
+                            }
+                            if(player == true){
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "down":
+                        entity.solidRectangle.y += entity.moveSpeed;
+                        if(entity.solidRectangle.intersects(gb.obj[i].solidArea)){
+                            if(gb.obj[i].collision == true){
+                                entity.collisionState = true;
+                            }
+                            if(player == true){
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "left":
+                        entity.solidRectangle.x -= entity.moveSpeed;
+                        if(entity.solidRectangle.intersects(gb.obj[i].solidArea)){
+                            if(gb.obj[i].collision == true){
+                                entity.collisionState = true;
+                            }
+                            if(player == true){
+                                index = i;
+                            }
+                        }
+                        break;
+                    case "right":
+                        entity.solidRectangle.x += entity.moveSpeed;
+                        if(entity.solidRectangle.intersects(gb.obj[i].solidArea)){
+                            if(gb.obj[i].collision == true){
+                                entity.collisionState = true;
+                            }
+                            if(player == true){
+                                index = i;
+                            }
+                        }
+                        break;
+                }
+                entity.solidRectangle.x = entity.solidAreaX;
+                entity.solidRectangle.y = entity.solidAreaY;
+                gb.obj[i].solidArea.x = gb.obj[i].solidAreaX;
+                gb.obj[i].solidArea.y = gb.obj[i].solidAreaY;
+                
+            }
+            
+
+        }
+
+        return index;
+
+    }
 }
