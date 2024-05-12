@@ -20,7 +20,7 @@ public class GameBoard extends JPanel implements Runnable {
     // Wymiary ekranu 
     public final int finalTileSize = scale * tileSize;
     public final int screenColumns = 48;   // 16
-    public final int screenRows = 36;      // 12
+    public final int screenRows = 41;      // 12
 
     // Przeskalowane wymiary ekranu 576p x 768p
     public final int screenHeight = tileSize * screenRows;
