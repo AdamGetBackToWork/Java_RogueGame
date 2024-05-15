@@ -19,7 +19,7 @@ public class THEObject {
     public void drawCar(Graphics2D g2, GameBoard gb){
 
         int screenX = worldX - gb.player.worldX + gb.player.screenX;
-        int screenY = worldY - gb.player.worldY + gb.player.screenY;
+        int screenY = worldY - gb.player.worldY + gb.player.screenY - 1*gb.finalTileSize;
 
         if(worldX > gb.player.worldX - gb.player.screenX - 3 * gb.finalTileSize && 
                 worldX < gb.player.worldX + gb.player.screenX + 3 * gb.finalTileSize && 
@@ -27,8 +27,18 @@ public class THEObject {
                 worldY < gb.player.worldY + gb.player.screenY + 3 * gb.finalTileSize){
                     g2.drawImage(image, screenX, screenY, 3 * gb.finalTileSize, gb.finalTileSize, null);
         }
-        
+    }
 
+    public void drawGun(Graphics2D g2, GameBoard gb){
+        int screenX = worldX - gb.player.worldX + gb.player.screenX;
+        int screenY = worldY - gb.player.worldY + gb.player.screenY - 1*gb.finalTileSize;
+
+        if(worldX > gb.player.worldX - gb.player.screenX - 1 * gb.finalTileSize && 
+                worldX < gb.player.worldX + gb.player.screenX + 1 * gb.finalTileSize && 
+                worldY> gb.player.worldY - gb.player.screenY - 1 * gb.finalTileSize && 
+                worldY < gb.player.worldY + gb.player.screenY + 1 * gb.finalTileSize){
+                    g2.drawImage(image, screenX, screenY, 1 * gb.finalTileSize, gb.finalTileSize, null);
+        }
     }
 }
 

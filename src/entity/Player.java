@@ -274,7 +274,7 @@ public class Player extends Entity{
             image = lastDrawnSprite;
             break;                
         }
-        g2.drawImage(image,screenX,screenY,gb.finalTileSize,gb.finalTileSize,null);
+        g2.drawImage(image,screenX,screenY - 1*gb.finalTileSize,gb.finalTileSize,gb.finalTileSize,null);
         lastDrawnSprite = image;
     }
 }

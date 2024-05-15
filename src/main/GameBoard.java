@@ -19,15 +19,15 @@ public class GameBoard extends JPanel implements Runnable {
 
     // Wymiary ekranu 
     public final int finalTileSize = scale * tileSize;
-    public final int screenColumns = 48;   // 16
-    public final int screenRows = 41;      // 12
+    public final int screenColumns = 48;   // 16 (was 48 before UI changes)
+    public final int screenRows = 36;      // 12 (was 36 before UI changes)
 
     // Przeskalowane wymiary ekranu 576p x 768p
     public final int screenHeight = tileSize * screenRows;
     public final int screenWidth = tileSize * screenColumns;
 
     public final int maxWorldCol = 34;
-    public final int maxWorldRow = 24;
+    public final int maxWorldRow = 24; // was 24
     // public final int worldWidth = finalTileSize * maxWorldCol;
     // public final int worldHeight = finalTileSize * maxWorldRow;
     
@@ -50,6 +50,8 @@ public class GameBoard extends JPanel implements Runnable {
     public Player player = new Player(this,kh);
     // wywołanie konstruktora objektu max 10 objektow wyświetlanych w jednym momencie
     public THEObject obj[] = new THEObject[10];
+
+    public UI ui = new UI(this);
 
 
     // konstruktor klasy
@@ -138,6 +140,7 @@ public class GameBoard extends JPanel implements Runnable {
         }
 
         player.draw(g2);
+        ui.draw(g2);
 
         g2.dispose();
     }
