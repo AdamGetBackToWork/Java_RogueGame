@@ -35,8 +35,9 @@ public class GameBoard extends JPanel implements Runnable {
     int FPS = 60;
 
     TileHandler th = new TileHandler(this);
-    KeyHandler kh = new KeyHandler();
+    KeyHandler kh = new KeyHandler(this);
     Sound sound = new Sound();
+
     // WĄTKI:
     // wątek gry:
     Thread gameThread;
@@ -50,9 +51,12 @@ public class GameBoard extends JPanel implements Runnable {
     public Player player = new Player(this,kh);
     // wywołanie konstruktora objektu max 10 objektow wyświetlanych w jednym momencie
     public THEObject obj[] = new THEObject[10];
-
+    // wywołanie konstruktora od User Interface
     public UI ui = new UI(this);
 
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     // konstruktor klasy
     public GameBoard(){
@@ -65,8 +69,11 @@ public class GameBoard extends JPanel implements Runnable {
 
     public void gameSetup(){
         objectHandler.setObject();
-
         playMusic();
+        // tu zatrzymana jest muzyka i dlatego jesli zastanawiasz 
+        // sie czmu nie dziala to zakomentuj  ta linijke nizej
+        stopMusic();
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -121,8 +128,13 @@ public class GameBoard extends JPanel implements Runnable {
 
     public void update(){
 
-        player.update();
-
+        if(gameState == playState){
+            player.update();
+        } 
+        if(gameState == pauseState){
+            // NIC NIE ROBIMY
+        }
+        
     }
 
     public void paintComponent(Graphics g){

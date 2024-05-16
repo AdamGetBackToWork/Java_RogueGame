@@ -16,11 +16,16 @@ import java.awt.BasicStroke;
 
 public class UI {
 
-    public BufferedImage playerSkin, gunImage;
     GameBoard gb;
-    Font arial_10, arial_20;
+    Graphics2D g2;
+    Font arial_10, arial_20,OCR_A_Extended_40;
+
+    public BufferedImage playerSkin, gunImage;
     public String message = "";
     public boolean messageShowing = false;
+    private int alpha = 127; // 50% transparent
+    private Color transpColor= new Color(10,10,10, alpha);
+
     double playTime;
     DecimalFormat dFormat = new DecimalFormat("#0.00");
 
@@ -28,6 +33,8 @@ public class UI {
         this.gb = gb;
         arial_10 = new Font("Arial", Font.PLAIN, 10);
         arial_20 = new Font("Arial", Font.PLAIN, 20);
+        OCR_A_Extended_40 = new Font("OCR A Extended",Font.PLAIN, 40);
+
         ObjectGun gun = new ObjectGun();
         gunImage = gun.image;
     }
@@ -41,8 +48,6 @@ public class UI {
         }
     }
 
-    
-
     public void showMessage(String text){
 
         message = text;
@@ -52,6 +57,8 @@ public class UI {
 
     // modify it for player sprite, gun sprite, ammo and stuff
     public void draw(Graphics2D g2){
+
+        this.g2 = g2;
 
         getPlayerSkin();
         int temp = (int) (10*gb.finalTileSize + gb.finalTileSize/2);
@@ -72,13 +79,42 @@ public class UI {
         g2.drawRect(temp5,temp3, gb.finalTileSize + temp2, temp4);
         g2.drawRect(13 * gb.finalTileSize - temp5,temp3, 3*gb.finalTileSize, temp4);
 
-
         // for this to work we need to call it from for e.g Player class collision checker part
         playTime += (double) (1/60);
         g2.setColor(Color.ORANGE);
         g2.drawString("Time: "+dFormat.format(playTime), temp2 + 14*gb.finalTileSize, temp2);
+        g2.drawString("FPS: "+dFormat.format(playTime), temp2 + 14*gb.finalTileSize, temp5+temp2);
 
         g2.drawImage(gunImage, 13 * gb.finalTileSize, temp3 + temp5, temp2 + 2*gb.finalTileSize, gb.finalTileSize,null);
         g2.drawImage(playerSkin,temp2, temp,gb.finalTileSize,gb.finalTileSize,null);
+
+        if(gb.gameState == gb.playState){
+            //nic null nada hula dusza
+        } else if(gb.gameState == gb.pauseState){
+            drawPauseScreen();
+        }
     } 
+
+    // pauseState drawing
+    private void drawPauseScreen(){
+        g2.setFont(OCR_A_Extended_40);
+        String text = "PAUSED"; 
+        int y = gb.screenHeight/2 ;
+        int x = centerText(text);
+
+        // pause text
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, x, y);
+
+        // pause background
+        g2.setColor(transpColor);
+        g2.fillRect(0, 0, 16*gb.finalTileSize, 16*gb.finalTileSize);
+    }
+
+    // method for getting the centerf for specific string
+    private int centerText(String text){
+        int textLength = (int)(g2.getFontMetrics().getStringBounds(text, g2).getWidth());
+        int x = gb.screenWidth/2 - textLength/2;
+        return x;
+    }
 }
