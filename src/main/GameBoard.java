@@ -72,7 +72,7 @@ public class GameBoard extends JPanel implements Runnable {
         playMusic();
         // tu zatrzymana jest muzyka i dlatego jesli zastanawiasz 
         // sie czmu nie dziala to zakomentuj  ta linijke nizej
-        // stopMusic();
+        stopMusic();
         gameState = playState;
     }
 

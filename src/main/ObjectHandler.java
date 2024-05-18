@@ -1,7 +1,6 @@
 package main;
 
-import object.Object_Car;
-import object.THEObject;
+import object.ObjectCar;
 
 
 public class ObjectHandler {
@@ -13,13 +12,15 @@ public class ObjectHandler {
     }
 
     public void setObject(){
-        gb.obj[0] = new Object_Car();
+        gb.obj[0] = new ObjectCar();
         gb.obj[0].worldX = 11 * gb.finalTileSize;
         gb.obj[0].worldY = 6 * gb.finalTileSize;   
         
-        gb.obj[1] = new Object_Car();
+        gb.obj[1] = new ObjectCar();
         gb.obj[1].worldX = 14 * gb.finalTileSize;
         gb.obj[1].worldY = 9 * gb.finalTileSize;  
+
+
     }
 
     

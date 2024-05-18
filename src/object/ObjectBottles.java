@@ -5,12 +5,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class ObjectGun extends THEObject {
-    
-    public ObjectGun(){
-        name = "Gun";
-        File imageFile = new File("res\\objects\\weapons\\sub.png");
-        solidArea.width = 24;
+public class ObjectBottles extends THEObject {
+
+    public ObjectBottles(){
+        name = "Bottles";
+        File imageFile = new File("res\\objects\\street_elem\\bottles.png");
+        solidArea.width = 12;
+        solidArea.height = 12;
 
         try {
             image = ImageIO.read(imageFile);
