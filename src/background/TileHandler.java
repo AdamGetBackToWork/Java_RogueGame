@@ -26,7 +26,7 @@ public class TileHandler {
         tileNum = new int[gb.maxWorldCol][gb.maxWorldRow];
 
         getTileImage();
-        loadMap("res\\maps\\testmap2.txt");
+        loadMap("res\\maps\\mapa-workinprogress-18_05.txt");
     }
 
     public void getTileImage(){
@@ -202,13 +202,14 @@ public class TileHandler {
                 tile[i] = new Tile();
             }
             
+            /* 
             tile[0].image = ImageIO.read(file0);  
             tile[1].image = ImageIO.read(file1); 
             tile[2].image = ImageIO.read(file2); 
             
             tile[3].image = ImageIO.read(file3); 
             tile[3].collision = true;
-
+*/
             //loading eachfile 
 
             //na ten moment bez: (todo)
