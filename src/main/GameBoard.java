@@ -26,8 +26,8 @@ public class GameBoard extends JPanel implements Runnable {
     public final int screenHeight = tileSize * screenRows;
     public final int screenWidth = tileSize * screenColumns;
 
-    public final int maxWorldCol = 34;
-    public final int maxWorldRow = 24; // was 24
+    public final int maxWorldCol = 100; // was 34
+    public final int maxWorldRow = 100; // was 24
     // public final int worldWidth = finalTileSize * maxWorldCol;
     // public final int worldHeight = finalTileSize * maxWorldRow;
     

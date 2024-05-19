@@ -123,8 +123,8 @@ public class Player extends Entity{
     }
 
     public void setDefault(){
-        worldX = gb.finalTileSize * 17;
-        worldY = gb.finalTileSize * 12;
+        worldX = gb.finalTileSize * 50;
+        worldY = gb.finalTileSize * 50;
         moveSpeed = 4;
         direction = "down";
     }
