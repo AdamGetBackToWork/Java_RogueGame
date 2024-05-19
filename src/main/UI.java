@@ -18,13 +18,15 @@ public class UI {
 
     GameBoard gb;
     Graphics2D g2;
-    Font arial_10, arial_20,OCR_A_Extended_40;
+    Font arial_10, arial_20,OCR_A_Extended_40, OCR_A_Extended_30, OCR_A_Extended_20;
 
     public BufferedImage playerSkin, gunImage;
     public String message = "";
     public boolean messageShowing = false;
     private int alpha = 127; // 50% transparent
     private Color transpColor= new Color(10,10,10, alpha);
+    private int commandNum = 0;
+    int subState = 0;
 
     double playTime;
     DecimalFormat dFormat = new DecimalFormat("#0.00");
@@ -34,6 +36,8 @@ public class UI {
         arial_10 = new Font("Arial", Font.PLAIN, 10);
         arial_20 = new Font("Arial", Font.PLAIN, 20);
         OCR_A_Extended_40 = new Font("OCR A Extended",Font.PLAIN, 40);
+        OCR_A_Extended_20 = new Font("OCR A Extended",Font.PLAIN, 20);
+        OCR_A_Extended_30 = new Font("OCR A Extended",Font.PLAIN, 30);
 
         ObjectGun gun = new ObjectGun();
         gunImage = gun.image;
@@ -97,18 +101,126 @@ public class UI {
 
     // pauseState drawing
     private void drawPauseScreen(){
-        g2.setFont(OCR_A_Extended_40);
-        String text = "PAUSED"; 
-        int y = gb.screenHeight/2 ;
-        int x = centerText(text);
-
-        // pause text
-        g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
 
         // pause background
         g2.setColor(transpColor);
         g2.fillRect(0, 0, 16*gb.finalTileSize, 16*gb.finalTileSize);
+
+        int frameX = gb.finalTileSize*4;
+        int frameY = gb.finalTileSize;
+        int frameWidth = gb.finalTileSize*8;
+        int frameHeight = gb.finalTileSize*10;
+
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+
+        switch(subState){
+            case 0: pause(frameX,frameY); break;
+            case 1: break;
+            case 2: break;
+        }
+
+        gb.kh.enterPress = false;
+    }
+
+    public void pause(int frameX, int frameY){
+
+        int temp = (int)(0.5*gb.finalTileSize);
+        int temp2 = (int)(0.4*gb.finalTileSize);
+
+         // Draw top strings
+         Color c = new Color(247,214,169);
+         g2.setColor(c);
+ 
+         g2.setFont(OCR_A_Extended_40);
+         String text = "PAUSED"; 
+         int textY = gb.screenHeight/2 - gb.finalTileSize*3 ;
+         int textX = centerText(text);
+         g2.drawString(text, textX, textY);
+ 
+         // g2.setFont(OCR_A_Extended_20);
+         // String optionsText = "Options";
+         // int textY2 = gb.screenHeight/2 - gb.finalTileSize*2 ;
+         // // int textX2 = centerText(optionsText);
+         // int textX2 = frameX + gb.finalTileSize;
+         // g2.drawString(optionsText, textX2, textY2);
+ 
+         // Draw pause screen options:
+         g2.setFont(OCR_A_Extended_20);
+         int textX3 = frameX + gb.finalTileSize+temp;
+             // Full screen
+                 textY = gb.screenHeight/2 - gb.finalTileSize;
+                 g2.drawString("Full Screen", textX3, textY);
+                 if (commandNum == 0){
+                     g2.drawString(">", textX3 - temp, textY);
+                     if(gb.kh.enterPress == true){
+                         if(gb.fullScreenState == false){
+                             gb.fullScreenState = true;
+                         }
+                         else if (gb.fullScreenState == true){
+                             gb.fullScreenState = false;
+                         }
+                     }
+                 }
+             // Sound
+                 textY = gb.screenHeight/2;
+                 g2.drawString("Music Volume", textX3, textY);
+                 if (commandNum == 1){
+                     g2.drawString(">", textX3 - temp, textY);
+                 }
+             // Sound fx
+                 textY = gb.screenHeight/2 + gb.finalTileSize;
+                 g2.drawString("FX Volume", textX3, textY);
+                 if (commandNum == 2){
+                     g2.drawString(">", textX3 - temp, textY);
+                 }
+             // Key bindings
+                 textY = gb.screenHeight/2 + 2*gb.finalTileSize;
+                 g2.drawString("Key Bindings", textX3, textY);
+                 if (commandNum == 3){
+                     g2.drawString(">", textX3 - temp, textY);
+                 }
+             // Restart game
+                 textY = gb.screenHeight/2 + 3*gb.finalTileSize;
+                 g2.drawString("Restart game", textX3, textY);
+                 if (commandNum == 4){
+                     g2.drawString(">", textX3 - temp, textY);
+                 }
+             // End game
+                 textY = gb.screenHeight/2 + 4*gb.finalTileSize;
+                 g2.drawString("End game", textX3, textY);
+                 if (commandNum == 5){
+                     g2.drawString(">", textX3 - temp, textY);
+                 }
+ 
+         // Next to them:
+             // Check Box
+             textX = textX3 + gb.finalTileSize*3 + temp;
+             textY = gb.screenHeight/2 - gb.finalTileSize - temp2;
+             g2.setStroke(new BasicStroke(3));
+             g2.drawRect(textX, textY, gb.finalTileSize/2, gb.finalTileSize/2);
+             if(gb.fullScreenState == true){
+                 g2.fillRect(textX, textY,  gb.finalTileSize/2, gb.finalTileSize/2);
+             }
+             // Music bar
+             textY = gb.screenHeight/2 - temp2;
+             g2.setStroke(new BasicStroke(3));
+             g2.drawRect(textX, textY, 2*gb.finalTileSize, gb.finalTileSize/2);
+             // FX bar
+             textY = gb.screenHeight/2 + gb.finalTileSize - temp2;
+             g2.setStroke(new BasicStroke(3));
+             g2.drawRect(textX, textY, 2*gb.finalTileSize, gb.finalTileSize/2);
+    }
+
+    public void drawSubWindow(int x, int y, int width, int height){
+        Color c = new Color(83,78,102,127);
+        g2.setColor(c);
+        g2.fillRoundRect(x, y, width, height, 35, 35);
+
+        // c = new Color(251, 237, 217);
+        c = new Color(247,214,169);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x, y, width, height, 25, 25);
     }
 
     // method for getting the centerf for specific string

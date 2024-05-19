@@ -30,6 +30,7 @@ public class GameBoard extends JPanel implements Runnable {
     public final int maxWorldRow = 100; // was 24
     // public final int worldWidth = finalTileSize * maxWorldCol;
     // public final int worldHeight = finalTileSize * maxWorldRow;
+    public boolean fullScreenState = false;
     
     // FPS
     int FPS = 60;
@@ -55,8 +56,10 @@ public class GameBoard extends JPanel implements Runnable {
     public UI ui = new UI(this);
 
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int endState = 4;
 
     // konstruktor klasy
     public GameBoard(){
