@@ -18,14 +18,14 @@ public class UI {
 
     GameBoard gb;
     Graphics2D g2;
-    Font arial_10, arial_20,OCR_A_Extended_40, OCR_A_Extended_30, OCR_A_Extended_20;
+    Font arial_10, arial_20,OCR_A_Extended_80,OCR_A_Extended_40, OCR_A_Extended_30, OCR_A_Extended_20;
 
     public BufferedImage playerSkin, gunImage;
     public String message = "";
     public boolean messageShowing = false;
     private int alpha = 127; // 50% transparent
     private Color transpColor= new Color(10,10,10, alpha);
-    private int commandNum = 0;
+    public int commandNum = 0;
     int subState = 0;
 
     double playTime;
@@ -38,6 +38,7 @@ public class UI {
         OCR_A_Extended_40 = new Font("OCR A Extended",Font.PLAIN, 40);
         OCR_A_Extended_20 = new Font("OCR A Extended",Font.PLAIN, 20);
         OCR_A_Extended_30 = new Font("OCR A Extended",Font.PLAIN, 30);
+        OCR_A_Extended_80 = new Font("OCR A Extended",Font.PLAIN, 80);
 
         ObjectGun gun = new ObjectGun();
         gunImage = gun.image;
@@ -64,6 +65,22 @@ public class UI {
 
         this.g2 = g2;
 
+
+        if(gb.gameState == gb.titleState){
+            drawTitleScreen();
+        }
+        if(gb.gameState == gb.creditsState){
+            drawCreditsScreen();
+        }
+        if(gb.gameState == gb.playState){
+            drawPlayScreen();
+        }
+        if(gb.gameState == gb.pauseState){
+            drawPauseScreen();
+        }
+    } 
+
+    private void drawPlayScreen(){
         getPlayerSkin();
         int temp = (int) (10*gb.finalTileSize + gb.finalTileSize/2);
         int temp2 = (int) (0.5*gb.finalTileSize);
@@ -92,15 +109,83 @@ public class UI {
         g2.drawImage(gunImage, 13 * gb.finalTileSize, temp3 + temp5, temp2 + 2*gb.finalTileSize, gb.finalTileSize,null);
         g2.drawImage(playerSkin,temp2, temp,gb.finalTileSize,gb.finalTileSize,null);
 
-        if(gb.gameState == gb.playState){
-            //nic null nada hula dusza
-        } else if(gb.gameState == gb.pauseState){
-            drawPauseScreen();
-        }
-    } 
+    }
+
+    public void drawTitleScreen() {
+
+        int temp2 = (int) (0.2*gb.finalTileSize);
+
+        // Ustawienie kolorow ekranu poczatkowego
+        Color bckgndColor = new Color(21,42,66);
+        //Color bckgndColor = new Color(0,0,0);
+        Color txtColor = new Color(247,214,169);
+
+        // Rysowanie tla ekranu poczatkowego
+        g2.setColor(bckgndColor);
+        g2.fillRect(0,0,gb.screenWidth,gb.screenHeight);
+
+        // Wyswietlenie tytulu gry
+        g2.setFont(OCR_A_Extended_80);  
+        String text = "Streets of Abbys";
+        int x = centerText(text);
+        int y = 3*gb.finalTileSize;
+            //Cien tekstu 
+            g2.setColor(new Color(0,0,0,127));
+            g2.drawString(text, x+20, y+40);
+            g2.setColor(Color.black);
+            g2.drawString(text, x+10, y+20);
+            // Tekst tekst
+            g2.setColor(txtColor);
+            g2.drawString(text, x, y);
+
+
+        // Menu
+            // nowa gra
+            g2.setFont(OCR_A_Extended_40);
+            text = "NEW GAME";
+            x = centerText(text);
+            y += 4*gb.finalTileSize;
+            // wyswietlenie zaznaczenia poprzez dodanie cienia do wybieranej opcji
+            if(commandNum == 0){
+                g2.setColor(new Color(0,0,0,127));
+                g2.drawString(text, x+10, y+20);
+                g2.setColor(Color.black);
+                g2.drawString(text, x+5, y+10);
+            }
+            g2.setColor(txtColor);
+            g2.drawString(text, x, y);
+
+            // kredyty - tworcy
+            text = "CREDITS";
+            x = centerText(text);
+            y += temp2+gb.finalTileSize;
+            // wyswietlenie zaznaczenia poprzez dodanie cienia do wybieranej opcji
+            if(commandNum == 1){
+                g2.setColor(new Color(0,0,0,127));
+                g2.drawString(text, x+10, y+20);
+                g2.setColor(Color.black);
+                g2.drawString(text, x+5, y+10);
+            }
+            g2.setColor(txtColor);
+            g2.drawString(text, x, y);
+
+            // exit
+            text = "QUIT";
+            x = centerText(text);
+            y += temp2+gb.finalTileSize;
+            // wyswietlenie zaznaczenia poprzez dodanie cienia do wybieranej opcji
+            if(commandNum == 2){
+                g2.setColor(new Color(0,0,0,127));
+                g2.drawString(text, x+10, y+20);
+                g2.setColor(Color.black);
+                g2.drawString(text, x+5, y+10);
+            }
+            g2.setColor(txtColor);
+            g2.drawString(text, x, y);
+    }
 
     // pauseState drawing
-    private void drawPauseScreen(){
+    public void drawPauseScreen(){
 
         // pause background
         g2.setColor(transpColor);
@@ -120,6 +205,78 @@ public class UI {
         }
 
         gb.kh.enterPress = false;
+    }
+
+    private void drawCreditsScreen() {
+        int temp2 = (int) (0.2*gb.finalTileSize);
+
+        // Ustawienie kolorow ekranu poczatkowego
+        Color bckgndColor = new Color(21,42,66);
+        //Color bckgndColor = new Color(0,0,0);
+        Color txtColor = new Color(247,214,169);
+
+        // Rysowanie tla credits
+        g2.setColor(bckgndColor);
+        g2.fillRect(0,0,gb.screenWidth,gb.screenHeight);
+
+        // tekst
+            // Autorze
+            g2.setFont(OCR_A_Extended_40);  
+            String text = "Authors:";
+            int x = centerText(text);
+            int y = 3*gb.finalTileSize;
+            // Cienie
+            g2.setColor(new Color(0,0,0,127));
+            g2.drawString(text, x+10, y+20);
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+10);
+
+            g2.setColor(txtColor);
+            g2.drawString(text, x, y);
+
+
+            g2.setFont(OCR_A_Extended_30); 
+            // MICHAL
+            text = "Michał Rostek";
+            x = centerText(text);
+            y += 2*gb.finalTileSize;
+            // cienie
+            g2.setColor(new Color(0,0,0,127));
+            g2.drawString(text, x+10, y+20);
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+10);
+
+            g2.setColor(txtColor);
+            g2.drawString(text, x, y);
+
+            // ADAM 
+            text = "Adam Szajgin";
+            x = centerText(text);
+            y += gb.finalTileSize;
+            // cienie
+            g2.setColor(new Color(0,0,0,127));
+            g2.drawString(text, x+10, y+20);
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+10);
+
+            g2.setColor(txtColor);
+            g2.drawString(text, x, y);
+
+            // powrot do ekranu poczatkowego
+
+            g2.setFont(OCR_A_Extended_20); 
+            text = "Press ESC to go back";
+            x = centerText(text);
+            y += 4*gb.finalTileSize;
+            // cienie
+            g2.setColor(new Color(0,0,0,127));
+            g2.drawString(text, x+10, y+20);
+            g2.setColor(Color.black);
+            g2.drawString(text, x+5, y+10);
+
+            g2.setColor(txtColor);
+            g2.drawString(text, x, y);
+
     }
 
     public void pause(int frameX, int frameY){

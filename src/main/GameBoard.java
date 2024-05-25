@@ -59,6 +59,7 @@ public class GameBoard extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int creditsState = 5;
     public final int endState = 4;
 
     // konstruktor klasy
@@ -76,7 +77,8 @@ public class GameBoard extends JPanel implements Runnable {
         // tu zatrzymana jest muzyka i dlatego jesli zastanawiasz 
         // sie czmu nie dziala to zakomentuj  ta linijke nizej
         stopMusic();
-        gameState = playState;
+        gameState = titleState;
+        //gameState = playState;
     }
 
     public void startGameThread(){
@@ -143,19 +145,20 @@ public class GameBoard extends JPanel implements Runnable {
     public void paintComponent(Graphics g){
         
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D)g;
 
-        th.draw(g2);
-
-        for(int i = 0; i < obj.length; i++){
-            if(obj[i] != null){
-                obj[i].drawCar(g2,this);
+        if(gameState == titleState){
+            ui.draw(g2);
+        } else {
+            th.draw(g2);
+            for(int i = 0; i < obj.length; i++){
+                if(obj[i] != null){
+                    obj[i].drawCar(g2,this);
+                }
             }
+            player.draw(g2);
+            ui.draw(g2);
         }
-
-        player.draw(g2);
-        ui.draw(g2);
 
         g2.dispose();
     }

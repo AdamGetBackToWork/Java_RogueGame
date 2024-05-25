@@ -22,7 +22,12 @@ public class KeyHandler implements KeyListener{
 
 
         int code = e.getKeyCode();
-
+        if(gb.gameState == gb.titleState){
+            titleState(code);
+        }
+        if(gb.gameState == gb.creditsState){
+            creditsState(code);
+        }
         if (gb.gameState == gb.playState){
             playState(code);
         } 
@@ -74,6 +79,40 @@ public class KeyHandler implements KeyListener{
             } else if (gb.gameState == gb.pauseState){
                 gb.gameState = gb.playState;
             }
+        }
+    }
+
+    
+    private void titleState(int code) {
+        if(code == KeyEvent.VK_W){
+            gb.ui.commandNum--;
+            if(gb.ui.commandNum < 0){
+                gb.ui.commandNum = 2;
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            gb.ui.commandNum++;
+            if(gb.ui.commandNum > 2){
+                gb.ui.commandNum = 0;
+            }
+        }
+        if (code == KeyEvent.VK_ENTER){
+            if(gb.ui.commandNum == 0){
+                gb.gameState = gb.playState;
+                gb.playMusic();
+            }
+            if(gb.ui.commandNum == 1){
+                gb.gameState = gb.creditsState;
+            }
+            if(gb.ui.commandNum == 2){
+                System.exit(0);
+            }
+        }
+    }
+
+    private void creditsState(int code) {
+        if(code == KeyEvent.VK_ESCAPE){
+            gb.gameState = gb.titleState;
         }
     }
 
