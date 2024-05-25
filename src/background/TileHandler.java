@@ -22,11 +22,15 @@ public class TileHandler {
     public TileHandler(GameBoard gb){
 
         this.gb = gb;
-        tile = new Tile[100]; // Number of diff tiles in a game
+        tile = new Tile[1000]; // Number of diff tiles in a game
         tileNum = new int[gb.maxWorldCol][gb.maxWorldRow];
 
         getTileImage();
+<<<<<<< HEAD
         loadMap("res\\maps\\mapa-workinprogress-18_05.txt");
+=======
+        loadMap("res\\maps\\mapa.txt");
+>>>>>>> titleScreen
     }
 
     public void getTileImage(){
@@ -36,10 +40,10 @@ public class TileHandler {
         // String testPath3 = "res\\background\\bricks.png";
         // String testPath4 = "res\\background\\black.png";
 
-        File file0 = new File("res\\background\\ground.png");
-        File file1 = new File("res\\background\\stone.png");
-        File file2 = new File("res\\background\\bricks.png");
-        File file3 = new File("res\\background\\black.png");
+        // File file0 = new File("res\\background\\ground.png");
+        // File file1 = new File("res\\background\\stone.png");
+        // File file2 = new File("res\\background\\bricks.png");
+        // File file3 = new File("res\\background\\black.png");
 
         // TILES
             // BUILDINGS
@@ -124,79 +128,11 @@ public class TileHandler {
             tile[1] = new Tile();
             tile[2] = new Tile();
             tile[3] = new Tile();
-
-            /* 
-                tile[0] = new Tile();
-                tile[1] = new Tile();
-                tile[2] = new Tile();
-                tile[3] = new Tile();
-                tile[4] = new Tile();
-                tile[5] = new Tile();
-                tile[6] = new Tile();
-                tile[7] = new Tile();
-                tile[8] = new Tile();
-                tile[9] = new Tile();
-                tile[10] = new Tile();
-                tile[11] = new Tile();
-                tile[12] = new Tile();
-                tile[13] = new Tile();
-                tile[14] = new Tile();
-                tile[15] = new Tile();
-                tile[16] = new Tile();
-                tile[17] = new Tile();
-                tile[18] = new Tile();
-                tile[19] = new Tile();
-                tile[20] = new Tile();
-                tile[21] = new Tile();
-                tile[22] = new Tile();
-                tile[23] = new Tile();
-                tile[24] = new Tile();
-                tile[25] = new Tile();
-                tile[26] = new Tile();
-                tile[27] = new Tile();
-                tile[28] = new Tile();
-                tile[29] = new Tile();
-                tile[30] = new Tile();
-                tile[31] = new Tile();
-                tile[32] = new Tile();
-                tile[33] = new Tile();
-                tile[34] = new Tile();
-                tile[35] = new Tile();
-                tile[36] = new Tile();
-                tile[37] = new Tile();
-                tile[38] = new Tile();
-                tile[39] = new Tile();
-                tile[40] = new Tile();
-                tile[41] = new Tile();
-                tile[42] = new Tile();
-                tile[43] = new Tile();
-                tile[44] = new Tile();
-                tile[45] = new Tile();
-                tile[46] = new Tile();
-                tile[47] = new Tile();
-                tile[48] = new Tile();
-                tile[49] = new Tile();
-                tile[50] = new Tile();
-                tile[51] = new Tile();
-                tile[52] = new Tile();
-                tile[53] = new Tile();
-                tile[54] = new Tile();
-                tile[55] = new Tile();
-                tile[56] = new Tile();
-                tile[57] = new Tile();
-                tile[58] = new Tile();
-                tile[59] = new Tile();
-                tile[60] = new Tile();
-                tile[61] = new Tile();
-                tile[62] = new Tile();
-                tile[63] = new Tile();
-                tile[64] = new Tile();
-                tile[65] = new Tile();
-                tile[66] = new Tile();
-                tile[67] = new Tile();
-                tile[68] = new Tile();
             */
+<<<<<<< HEAD
 
+=======
+>>>>>>> titleScreen
             // zmienilem na 99 zeby byc bezpiecznym na ten moment z zakresem
             for (int i = 0; i <= 99; i++) {
                 tile[i] = new Tile();
