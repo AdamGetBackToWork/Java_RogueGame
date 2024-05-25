@@ -61,6 +61,7 @@ public class GameBoard extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int creditsState = 5;
     public final int endState = 4;
+    public final int menuKBState = 6; 
 
     // konstruktor klasy
     public GameBoard(){

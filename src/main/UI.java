@@ -78,6 +78,9 @@ public class UI {
         if(gb.gameState == gb.pauseState){
             drawPauseScreen();
         }
+        if(gb.gameState == gb.menuKBState){
+            drawMenuKBScreen();
+        }
     } 
 
     private void drawPlayScreen(){
@@ -283,6 +286,7 @@ public class UI {
 
         int temp = (int)(0.5*gb.finalTileSize);
         int temp2 = (int)(0.4*gb.finalTileSize);
+        int temp3 = (int)(2*gb.finalTileSize/5);
 
          // Draw top strings
          Color c = new Color(247,214,169);
@@ -336,16 +340,16 @@ public class UI {
                  if (commandNum == 3){
                      g2.drawString(">", textX3 - temp, textY);
                  }
-             // Restart game
-                 textY = gb.screenHeight/2 + 3*gb.finalTileSize;
-                 g2.drawString("Restart game", textX3, textY);
-                 if (commandNum == 4){
-                     g2.drawString(">", textX3 - temp, textY);
-                 }
+            //  // Main menu
+            //      textY = gb.screenHeight/2 + 3*gb.finalTileSize;
+            //      g2.drawString("Back to main menu", textX3, textY);
+            //      if (commandNum == 4){
+            //          g2.drawString(">", textX3 - temp, textY);
+            //      }
              // End game
                  textY = gb.screenHeight/2 + 4*gb.finalTileSize;
                  g2.drawString("End game", textX3, textY);
-                 if (commandNum == 5){
+                 if (commandNum == 4){
                      g2.drawString(">", textX3 - temp, textY);
                  }
  
@@ -362,11 +366,70 @@ public class UI {
              textY = gb.screenHeight/2 - temp2;
              g2.setStroke(new BasicStroke(3));
              g2.drawRect(textX, textY, 2*gb.finalTileSize, gb.finalTileSize/2);
+             int volWidth = temp3 * gb.sound.volumeBar;
+             g2.fillRect(textX,textY, volWidth, gb.finalTileSize/2);
              // FX bar
              textY = gb.screenHeight/2 + gb.finalTileSize - temp2;
              g2.setStroke(new BasicStroke(3));
              g2.drawRect(textX, textY, 2*gb.finalTileSize, gb.finalTileSize/2);
+             //int fxWidth = temp3 * gb.fx.volumeBar;
+             //g2.fillRect(textX,textY, fxWidth, gb.finalTileSize);
     }
+
+    public void drawMenuKBScreen(){
+        g2.setColor(transpColor);
+        g2.fillRect(0, 0, 16*gb.finalTileSize, 16*gb.finalTileSize);
+        
+        int frameX = gb.finalTileSize*4;
+        int frameY = gb.finalTileSize;
+        int frameWidth = gb.finalTileSize*8;
+        int frameHeight = gb.finalTileSize*10;
+
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+        int temp = (int)(0.5*gb.finalTileSize);
+        int temp2 = (int)(0.4*gb.finalTileSize);
+
+         // Draw top strings
+         Color c = new Color(247,214,169);
+         g2.setColor(c);
+
+         g2.setFont(OCR_A_Extended_40);
+         String text = "Key Bindings"; 
+         int textY = gb.screenHeight/2 - gb.finalTileSize*3 ;
+         int textX = centerText(text);
+         g2.drawString(text, textX, textY);
+
+         g2.setFont(OCR_A_Extended_20);
+         int textX3 = frameX + gb.finalTileSize+temp;
+             // gora
+                 textY = gb.screenHeight/2 - gb.finalTileSize;
+                 g2.drawString("Move Forward", textX3, textY);
+                 if (commandNum == 0){
+                     g2.drawString(">", textX3 - temp, textY);
+                     if(gb.kh.enterPress == true){
+                        
+                     }
+                 }
+             // dol
+                 textY = gb.screenHeight/2;
+                 g2.drawString("Move backward", textX3, textY);
+                 if (commandNum == 1){
+                     g2.drawString(">", textX3 - temp, textY);
+                 }
+             // prawo
+                 textY = gb.screenHeight/2 + gb.finalTileSize;
+                 g2.drawString("Move right", textX3, textY);
+                 if (commandNum == 2){
+                     g2.drawString(">", textX3 - temp, textY);
+                 }
+             // lewo
+                 textY = gb.screenHeight/2 + 2*gb.finalTileSize;
+                 g2.drawString("Move left", textX3, textY);
+                 if (commandNum == 3){
+                     g2.drawString(">", textX3 - temp, textY);
+                 }
+    }
+
 
     public void drawSubWindow(int x, int y, int width, int height){
         Color c = new Color(83,78,102,127);

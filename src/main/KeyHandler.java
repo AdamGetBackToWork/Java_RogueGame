@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener{
 
     GameBoard gb;
-    public boolean upPress, downPress, leftPress, rightPress, elsePress,enterPress;
+    public boolean upPress, downPress, leftPress, rightPress, elsePress, enterPress;
 
     public KeyHandler(GameBoard gb){
         this.gb = gb;
@@ -33,6 +33,9 @@ public class KeyHandler implements KeyListener{
         } 
         else if (gb.gameState == gb.pauseState){
             pauseState(code);
+        }
+        if (gb.gameState == gb.menuKBState){
+            menuKBState(code);
         }
         if (!(code == KeyEvent.VK_W || code == KeyEvent.VK_A || code == KeyEvent.VK_S || code == KeyEvent.VK_D || code == KeyEvent.VK_ESCAPE)) {
             elsePress = true;
@@ -121,7 +124,95 @@ public class KeyHandler implements KeyListener{
             gb.gameState = gb.playState;
         }
         if(code == KeyEvent.VK_ENTER){
-            enterPress = true;
+            if(gb.ui.commandNum == 0){
+                enterPress = true;
+            }
+            if(gb.ui.commandNum == 1){
+                gb.gameState = gb.creditsState;
+            }
+            if(gb.ui.commandNum == 2){
+                System.exit(0);
+            }
+            if(gb.ui.commandNum == 3){
+                gb.gameState = gb.menuKBState;
+            }
+            if(gb.ui.commandNum == 4){
+                gb.gameState = gb.titleState;
+                gb.ui.commandNum = 0;
+            }
+        }
+        if(code == KeyEvent.VK_W){
+            gb.ui.commandNum--;
+            if(gb.ui.commandNum < 0){
+                gb.ui.commandNum = 4;
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            gb.ui.commandNum++;
+            if(gb.ui.commandNum > 4){
+                gb.ui.commandNum = 0;
+            }
+        }
+        if(code == KeyEvent.VK_A){
+            if(gb.ui.subState == 0){
+                if(gb.ui.commandNum == 1 && gb.sound.volumeBar > 0){
+                    gb.sound.volumeBar--;
+                    gb.sound.controlVolume();
+                }
+                // if(gb.ui.commandNum == 2 && gb.fx.volumeBar > 0){
+                //     gb.fx.volumeBar--;
+                //     gb.fx.controlVolume();
+                // }
+            }
+        }
+        if(code == KeyEvent.VK_D){
+            if(gb.ui.subState == 0){
+                if(gb.ui.commandNum == 1 && gb.sound.volumeBar < 5){
+                    gb.sound.volumeBar++;
+                    gb.sound.controlVolume();
+                }
+                // if(gb.ui.commandNum == 2 && gb.fx.volumeBar > 0){
+                //     gb.fx.volumeBar--;
+                //     gb.fx.controlVolume();
+                // }
+            }
+        }
+    }
+    public void menuKBState(int code){
+        if(code == KeyEvent.VK_ESCAPE){
+            gb.gameState = gb.playState;
+        }
+        if(code == KeyEvent.VK_ENTER){
+            if(gb.ui.commandNum == 0){
+                enterPress = true;
+            }
+            if(gb.ui.commandNum == 1){
+                gb.gameState = gb.creditsState;
+            }
+            if(gb.ui.commandNum == 2){
+                System.exit(0);
+            }
+            if(gb.ui.commandNum == 3){
+                gb.gameState = gb.menuKBState;
+            }
+            if(gb.ui.commandNum == 4){
+                gb.gameState = gb.titleState;
+            }
+            gb.ui.commandNum = 0;
+            enterPress = false;
+        }
+
+        if(code == KeyEvent.VK_W){
+            gb.ui.commandNum--;
+            if(gb.ui.commandNum < 0){
+                gb.ui.commandNum = 4;
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            gb.ui.commandNum++;
+            if(gb.ui.commandNum > 4){
+                gb.ui.commandNum = 0;
+            }
         }
     }
 }
