@@ -121,15 +121,24 @@ public class UI {
     public void drawTitleScreen() {
 
         int temp2 = (int) (0.2*gb.finalTileSize);
+        int temp = (int) (0.5*gb.finalTileSize);
 
         // Ustawienie kolorow ekranu poczatkowego
         Color bckgndColor = new Color(21,42,66);
         //Color bckgndColor = new Color(0,0,0);
         Color txtColor = new Color(247,214,169);
 
+
         // Rysowanie tla ekranu poczatkowego
+        Color c = new Color(83,78,102,127);
+        g2.setColor(c);
+        g2.fillRect(gb.finalTileSize,gb.finalTileSize,gb.screenWidth-2*gb.finalTileSize,gb.screenHeight-2*gb.finalTileSize);
+        g2.setColor(transpColor);
+        g2.fillRect(gb.finalTileSize,gb.finalTileSize,gb.screenWidth-2*gb.finalTileSize,gb.screenHeight-2*gb.finalTileSize);
         g2.setColor(bckgndColor);
-        g2.fillRect(0,0,gb.screenWidth,gb.screenHeight);
+        g2.setStroke(new BasicStroke(5));
+        //g2.drawRoundRect(x, y, width, height, 25, 25);
+        g2.drawRoundRect(temp, temp, gb.screenWidth-gb.finalTileSize, gb.screenHeight-gb.finalTileSize,temp,temp);
 
         // Wyswietlenie tytulu gry
         g2.setFont(OCR_A_Extended_80);  
@@ -217,6 +226,7 @@ public class UI {
 
     private void drawCreditsScreen() {
         int temp2 = (int) (0.2*gb.finalTileSize);
+        int temp = (int) (0.5*gb.finalTileSize);
 
         // Ustawienie kolorow ekranu poczatkowego
         Color bckgndColor = new Color(21,42,66);
@@ -224,8 +234,19 @@ public class UI {
         Color txtColor = new Color(247,214,169);
 
         // Rysowanie tla credits
+        // g2.setColor(bckgndColor);
+        // g2.fillRect(0,0,gb.screenWidth,gb.screenHeight);
+        g2.setColor(Color.black);
+        g2.fillRect(0, 0, gb.screenWidth, gb.screenHeight);
+        Color c = new Color(83,78,102,127);
+        g2.setColor(c);
+        g2.fillRect(gb.finalTileSize,gb.finalTileSize,gb.screenWidth-2*gb.finalTileSize,gb.screenHeight-2*gb.finalTileSize);
+        g2.setColor(transpColor);
+        g2.fillRect(gb.finalTileSize,gb.finalTileSize,gb.screenWidth-2*gb.finalTileSize,gb.screenHeight-2*gb.finalTileSize);
         g2.setColor(bckgndColor);
-        g2.fillRect(0,0,gb.screenWidth,gb.screenHeight);
+        g2.setStroke(new BasicStroke(5));
+        //g2.drawRoundRect(x, y, width, height, 25, 25);
+        g2.drawRoundRect(temp, temp, gb.screenWidth-gb.finalTileSize, gb.screenHeight-gb.finalTileSize,temp,temp);
 
         // tekst
             // Autorze
@@ -523,6 +544,13 @@ public class UI {
                 gb.gameState = gb.playState;
             }
         }
+        if(commandNum > 1){
+            commandNum = 0;
+        }
+        if(commandNum < 0){
+            commandNum = 1;
+        }
+
     }
 
     // public void drawQuitQuestion(){
