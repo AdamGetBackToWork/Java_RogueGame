@@ -507,6 +507,7 @@ public class UI {
             g2.drawString(">", textX-temp, textY);
             if(gb.kh.enterPress == true){
                 subState = 0;
+                gb.stopMusic();
                 gb.gameState = gb.titleState;
             }
         }
