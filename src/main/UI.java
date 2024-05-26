@@ -26,6 +26,7 @@ public class UI {
     private int alpha = 127; // 50% transparent
     private Color transpColor= new Color(10,10,10, alpha);
     public int commandNum = 0;
+    public int commandNumTitle = 0;
     int subState = 0;
 
     double playTime;
@@ -78,9 +79,12 @@ public class UI {
         if(gb.gameState == gb.pauseState){
             drawPauseScreen();
         }
-        if(gb.gameState == gb.menuKBState){
-            drawMenuKBScreen();
-        }
+        // if(gb.gameState == gb.menuKBState){
+        //     drawMenuKBScreen();
+        // }
+        // if(gb.gameState == gb.maybeQuitState){
+        //     drawQuitQuestion();
+        // }
     } 
 
     private void drawPlayScreen(){
@@ -149,7 +153,7 @@ public class UI {
             x = centerText(text);
             y += 4*gb.finalTileSize;
             // wyswietlenie zaznaczenia poprzez dodanie cienia do wybieranej opcji
-            if(commandNum == 0){
+            if(commandNumTitle == 0){
                 g2.setColor(new Color(0,0,0,127));
                 g2.drawString(text, x+10, y+20);
                 g2.setColor(Color.black);
@@ -163,7 +167,7 @@ public class UI {
             x = centerText(text);
             y += temp2+gb.finalTileSize;
             // wyswietlenie zaznaczenia poprzez dodanie cienia do wybieranej opcji
-            if(commandNum == 1){
+            if(commandNumTitle == 1){
                 g2.setColor(new Color(0,0,0,127));
                 g2.drawString(text, x+10, y+20);
                 g2.setColor(Color.black);
@@ -177,7 +181,7 @@ public class UI {
             x = centerText(text);
             y += temp2+gb.finalTileSize;
             // wyswietlenie zaznaczenia poprzez dodanie cienia do wybieranej opcji
-            if(commandNum == 2){
+            if(commandNumTitle == 2){
                 g2.setColor(new Color(0,0,0,127));
                 g2.drawString(text, x+10, y+20);
                 g2.setColor(Color.black);
@@ -203,8 +207,9 @@ public class UI {
 
         switch(subState){
             case 0: pause(frameX,frameY); break;
-            case 1: break;
-            case 2: break;
+            case 1: fullScreenNotif(frameX, frameY); break;
+            case 2: drawMenuKBScreen(frameX, frameY); break;
+            case 3: goBackScreen(frameX, frameY); break;
         }
 
         gb.kh.enterPress = false;
@@ -320,6 +325,7 @@ public class UI {
                          else if (gb.fullScreenState == true){
                              gb.fullScreenState = false;
                          }
+                         subState = 1;
                      }
                  }
              // Sound
@@ -335,11 +341,15 @@ public class UI {
                      g2.drawString(">", textX3 - temp, textY);
                  }
              // Key bindings
-                 textY = gb.screenHeight/2 + 2*gb.finalTileSize;
-                 g2.drawString("Key Bindings", textX3, textY);
-                 if (commandNum == 3){
-                     g2.drawString(">", textX3 - temp, textY);
-                 }
+                textY = gb.screenHeight/2 + 2*gb.finalTileSize;
+                g2.drawString("Key Bindings", textX3, textY);
+                if (commandNum == 3){
+                    g2.drawString(">", textX3 - temp, textY);
+                    if(gb.kh.enterPress == true){
+                        subState = 2;
+                        commandNum = 0;
+                    }
+                }
             //  // Main menu
             //      textY = gb.screenHeight/2 + 3*gb.finalTileSize;
             //      g2.drawString("Back to main menu", textX3, textY);
@@ -350,7 +360,11 @@ public class UI {
                  textY = gb.screenHeight/2 + 4*gb.finalTileSize;
                  g2.drawString("End game", textX3, textY);
                  if (commandNum == 4){
-                     g2.drawString(">", textX3 - temp, textY);
+                    g2.drawString(">", textX3 - temp, textY);
+                    if(gb.kh.enterPress == true){
+                       subState = 3;
+                       commandNum = 0;
+                    }
                  }
  
          // Next to them:
@@ -376,18 +390,36 @@ public class UI {
              //g2.fillRect(textX,textY, fxWidth, gb.finalTileSize);
     }
 
-    public void drawMenuKBScreen(){
-        g2.setColor(transpColor);
-        g2.fillRect(0, 0, 16*gb.finalTileSize, 16*gb.finalTileSize);
+    public void fullScreenNotif(int frameX, int frameY){
         
-        int frameX = gb.finalTileSize*4;
-        int frameY = gb.finalTileSize;
-        int frameWidth = gb.finalTileSize*8;
-        int frameHeight = gb.finalTileSize*10;
-
-        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
         int temp = (int)(0.5*gb.finalTileSize);
-        int temp2 = (int)(0.4*gb.finalTileSize);
+        int textX = frameX + gb.finalTileSize;
+        int textY = frameY + gb.finalTileSize*3;
+
+        g2.setFont(OCR_A_Extended_20);
+
+        String text = "Changing to full screen \nwill restart the game";
+        for(String line: text.split("\n")){
+            g2.drawString(line, textX, textY);
+            textY += gb.finalTileSize;
+        }   
+
+        //powrot
+        textY=frameY + gb.finalTileSize*9;
+        g2.drawString("Back", textX, textY);
+        if(commandNum == 0){
+            g2.drawString(">", textX - temp, textY);
+            if(gb.kh.enterPress == true){
+                subState = 0;
+            }
+        }
+    }
+
+    public void drawMenuKBScreen(int frameX, int frameY){
+        
+        int temp = (int)(0.5*gb.finalTileSize);
+        int textX = frameX + gb.finalTileSize;
+        int textY = frameY + gb.finalTileSize*3;
 
          // Draw top strings
          Color c = new Color(247,214,169);
@@ -395,8 +427,8 @@ public class UI {
 
          g2.setFont(OCR_A_Extended_40);
          String text = "Key Bindings"; 
-         int textY = gb.screenHeight/2 - gb.finalTileSize*3 ;
-         int textX = centerText(text);
+         textY = gb.screenHeight/2 - gb.finalTileSize*3 ;
+         textX = centerText(text);
          g2.drawString(text, textX, textY);
 
          g2.setFont(OCR_A_Extended_20);
@@ -407,7 +439,7 @@ public class UI {
                  if (commandNum == 0){
                      g2.drawString(">", textX3 - temp, textY);
                      if(gb.kh.enterPress == true){
-                        
+                        subState = 0;
                      }
                  }
              // dol
@@ -415,21 +447,131 @@ public class UI {
                  g2.drawString("Move backward", textX3, textY);
                  if (commandNum == 1){
                      g2.drawString(">", textX3 - temp, textY);
+                     if(gb.kh.enterPress == true){
+                        subState = 0;
+                    }
                  }
              // prawo
                  textY = gb.screenHeight/2 + gb.finalTileSize;
                  g2.drawString("Move right", textX3, textY);
                  if (commandNum == 2){
                      g2.drawString(">", textX3 - temp, textY);
+                     if(gb.kh.enterPress == true){
+                        subState = 0;
+                    }
                  }
-             // lewo
+            // lewo
                  textY = gb.screenHeight/2 + 2*gb.finalTileSize;
                  g2.drawString("Move left", textX3, textY);
                  if (commandNum == 3){
                      g2.drawString(">", textX3 - temp, textY);
+                     if(gb.kh.enterPress == true){
+                        subState = 0;
+                    }
                  }
+            // powrot
+            textX = frameX + gb.finalTileSize;
+            textY = frameY + gb.finalTileSize*9;
+            g2.drawString("Go back", textX3, textY);
+            if(commandNum == 4){
+                g2.drawString(">", textX3-temp, textY);
+                if(gb.kh.enterPress == true){
+                    subState = 0;
+                }
+            }
     }
 
+    public void goBackScreen(int frameX, int frameY){
+        
+
+        int temp = (int)(0.5*gb.finalTileSize);
+        int textX = frameX + gb.finalTileSize;
+        int textY = frameY + gb.finalTileSize*3;
+
+        g2.setFont(OCR_A_Extended_20);
+
+        String text = "Quit the game and \nreturn to title screen?";
+        for(String line: text.split("\n")){
+            g2.drawString(line, textX, textY);
+            textY += gb.finalTileSize;
+        } 
+
+        //g2.drawString(text, textX, textY);
+        
+        g2.setFont(OCR_A_Extended_20);
+        text = "Yes";
+        textX = centerText(text);
+        textY += gb.finalTileSize;
+        g2.drawString(text, textX, textY);
+        if(commandNum == 0){
+            g2.drawString(">", textX-temp, textY);
+            if(gb.kh.enterPress == true){
+                subState = 0;
+                gb.gameState = gb.titleState;
+            }
+        }
+
+        text = "No";
+        textX = centerText(text);
+        textY += gb.finalTileSize;
+        g2.drawString(text, textX, textY);
+        if(commandNum == 1){
+            g2.drawString(">", textX-temp, textY);
+            if(gb.kh.enterPress == true){
+                subState = 0;
+                gb.gameState = gb.playState;
+            }
+        }
+    }
+
+    // public void drawQuitQuestion(){
+    //     int temp = (int)(0.5*gb.finalTileSize);
+
+    //     g2.setColor(transpColor);
+    //     g2.fillRect(0, 0, 16*gb.finalTileSize, 16*gb.finalTileSize);
+        
+    //     int frameX = gb.finalTileSize*4;
+    //     int frameY = gb.finalTileSize;
+    //     int frameWidth = gb.finalTileSize*8;
+    //     int frameHeight = gb.finalTileSize*10;
+
+    //     drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+
+    //     g2.setFont(OCR_A_Extended_40);
+    //     String text = "Quit the game and return to title screen?";
+
+    //     int textY = gb.screenHeight/2 - gb.finalTileSize*3 ;
+    //     int textX = centerText(text);
+
+
+    //     g2.drawString(text, textX, textY);
+        
+    //     g2.setFont(OCR_A_Extended_20);
+    //     text = "Yes";
+    //     textX = centerText(text);
+    //     textY += gb.finalTileSize;
+    //     g2.drawString(text, textX, textY);
+    //     if(commandNum == 0){
+    //         g2.drawString(">", textX-temp, textY);
+    //         if(gb.kh.enterPress == true){
+    //             subState = 0;
+    //             gb.gameState = gb.titleState;
+    //         }
+    //     }
+
+    //     text = "No";
+    //     textX = centerText(text);
+    //     textY += gb.finalTileSize;
+    //     g2.drawString(text, textX, textY);
+    //     if(commandNum == 1){
+    //         g2.drawString(">", textX-temp, textY);
+    //         if(gb.kh.enterPress == true){
+    //             subState = 0;
+    //             gb.gameState = gb.playState;
+    //         }
+    //     }
+
+    // }
 
     public void drawSubWindow(int x, int y, int width, int height){
         Color c = new Color(83,78,102,127);

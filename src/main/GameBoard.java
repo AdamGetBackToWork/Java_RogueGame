@@ -9,6 +9,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
 
 
 public class GameBoard extends JPanel implements Runnable {
@@ -19,6 +22,10 @@ public class GameBoard extends JPanel implements Runnable {
 
     // Wymiary ekranu 
     public final int finalTileSize = scale * tileSize;
+    
+    // zeby ladnie pasowalo do full screen ratio, nalezy zmienic stosunek na 16:9
+    // tutaj tego nie robie bo gra docelowo ma byc grana w malej wersji ale chce
+    // pokazac opcje tego pelnego ekranu :)
     public final int screenColumns = 48;   // 16 (was 48 before UI changes)
     public final int screenRows = 36;      // 12 (was 36 before UI changes)
 
@@ -28,8 +35,15 @@ public class GameBoard extends JPanel implements Runnable {
 
     public final int maxWorldCol = 100; // was 34
     public final int maxWorldRow = 100; // was 24
+
     // public final int worldWidth = finalTileSize * maxWorldCol;
     // public final int worldHeight = finalTileSize * maxWorldRow;
+    
+    // PELNY EKRAN zmienne
+    int screenWidth2 = screenWidth;
+    int screenHeight2 = screenHeight;
+    BufferedImage tempScreen;
+    Graphics2D g2;
     public boolean fullScreenState = false;
     
     // FPS
@@ -61,7 +75,8 @@ public class GameBoard extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int creditsState = 5;
     public final int endState = 4;
-    public final int menuKBState = 6; 
+    public final int menuKBState = 6;
+    public final int maybeQuitState = 7; 
 
     // konstruktor klasy
     public GameBoard(){
@@ -79,7 +94,11 @@ public class GameBoard extends JPanel implements Runnable {
         // sie czmu nie dziala to zakomentuj  ta linijke nizej
         stopMusic();
         gameState = titleState;
+
+        //tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+        //g2 = (Graphics2D)tempScreen.getGraphics();
         //gameState = playState;
+        //setFullScreen();
     }
 
     public void startGameThread(){
@@ -108,6 +127,11 @@ public class GameBoard extends JPanel implements Runnable {
             if(delta >= 1){
                 update();
                 repaint();
+
+                // zapisanie rysowania do bufora
+                //drawTempScreen();
+                // z bufora narysowanie na ekranie 
+                //drawScreen();
                 delta--;
             }
 
@@ -142,6 +166,43 @@ public class GameBoard extends JPanel implements Runnable {
         }
         
     }
+
+    // public void drawTempScreen(){
+
+    //     if(gameState == titleState){
+    //         ui.draw(g2);
+    //     } else {
+    //         th.draw(g2);
+    //         for(int i = 0; i < obj.length; i++){
+    //             if(obj[i] != null){
+    //                 obj[i].drawCar(g2,this);
+    //             }
+    //         }
+    //         player.draw(g2);
+    //         ui.draw(g2);
+    //     }
+    // }
+
+    // public void drawScreen(){
+
+    //     Graphics g = getGraphics();
+    //     g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2,null);
+    //     g.dispose();
+
+    // }
+
+    // public void setFullScreen(){
+
+    //     // identyfikacja lokalnego ekranu
+    //     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    //     GraphicsDevice gd = ge.getDefaultScreenDevice();
+    //     gd.setFullScreenWindow(Main.window);
+
+    //     //pobranie rozmiarow ekranu
+    //     screenWidth2 = Main.window.getWidth();
+    //     screenHeight2 = Main.window.getHeight();
+
+    // }
 
     public void paintComponent(Graphics g){
         
