@@ -16,7 +16,6 @@ import main.KeyHandler;
 
 public class Player extends Entity{
     
-    GameBoard gb;
     KeyHandler kh; 
 
     public final int screenX;
@@ -28,7 +27,7 @@ public class Player extends Entity{
 
     public Player(GameBoard gb, KeyHandler kh){
         
-        this.gb = gb;
+        super(gb);
         this.kh = kh; 
 
         screenX = gb.screenWidth/2 - (gb.finalTileSize/2);
@@ -127,48 +126,59 @@ public class Player extends Entity{
         worldY = gb.finalTileSize * 50;
         moveSpeed = 4;
         direction = "down";
+        maxHP = 10;
+        HP = maxHP;
     }
 
     public void update(){
-        if(kh.upPress == true){
-            direction = "up";
-        }
-        else if(kh.downPress == true){
-            direction = "down";
-        }
-        else if(kh.leftPress == true){
-            direction = "left";
-        }
-        else if(kh.rightPress == true){
-            direction = "right";
-        } else {
-            direction = "none";
-        }
 
         if (kh.upPress == true || kh.downPress == true || kh.leftPress == true || kh.rightPress == true){
-            spriteCount++;
-        }
             
-        collisionState = false;
-        gb.collisionHandler.checkTile(this);
-        int objIndex = gb.collisionHandler.checkObject(this, true);
-        // takeObject(objIndex);
-
-        if(collisionState == false){
-            switch(direction){
-                case "up":
-                    worldY -= moveSpeed;
-                    break;
-                case "down":
-                    worldY += moveSpeed;
-                    break;
-                case "left":
-                    worldX -= moveSpeed;
-                    break;
-                case "right":
-                    worldX += moveSpeed;
-                    break;
+            if(kh.upPress == true){
+                direction = "up";
             }
+            else if(kh.downPress == true){
+                direction = "down";
+            }
+            else if(kh.leftPress == true){
+                direction = "left";
+            }
+            else if(kh.rightPress == true){
+                direction = "right";
+            }
+
+            spriteCount++;
+            collisionState = false;
+
+            // sprawdzanie kolizji z blokami
+            gb.collisionHandler.checkTile(this);
+
+            int monIndex = gb.collisionHandler.checkEntity(this, gb.monster);
+            interactMonster(monIndex);
+
+            int objIndex = gb.collisionHandler.checkObject(this, true);
+    
+            // sprawdzanie wystapienia eventu
+            gb.eh.checkEvent();
+    
+            if(collisionState == false){
+                switch(direction){
+                    case "up":
+                        worldY -= moveSpeed;
+                        break;
+                    case "down":
+                        worldY += moveSpeed;
+                        break;
+                    case "left":
+                        worldX -= moveSpeed;
+                        break;
+                    case "right":
+                        worldX += moveSpeed;
+                        break;
+                    default:
+                        break;
+                }
+        }
         }
 
         if(spriteCount > 8){
@@ -207,6 +217,14 @@ public class Player extends Entity{
             }
             gb.obj[i] = null;
         }
+    }
+
+    public void interactMonster(int monIndex){
+
+        if(monIndex != 999){
+            System.out.println("youre hitting a mosnter");
+        }
+
     }
 
     public void draw(Graphics2D g2){

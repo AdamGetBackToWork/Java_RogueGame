@@ -1,6 +1,7 @@
 package main;
 
 import background.TileHandler;
+import entity.Entity;
 import entity.Player;
 import object.THEObject;
 
@@ -66,8 +67,12 @@ public class GameBoard extends JPanel implements Runnable {
     public Player player = new Player(this,kh);
     // wywołanie konstruktora objektu max 10 objektow wyświetlanych w jednym momencie
     public THEObject obj[] = new THEObject[10];
+    // wywołanie konstruktora od powtworow
+    public Entity monster[] = new Entity[20];
     // wywołanie konstruktora od User Interface
     public UI ui = new UI(this);
+    // wywołanie konstruktora od Event Handlera
+    public EventHandler eh = new EventHandler(this);
 
     public int gameState;
     public final int titleState = 0;
@@ -89,6 +94,7 @@ public class GameBoard extends JPanel implements Runnable {
 
     public void gameSetup(){
         objectHandler.setObject();
+        objectHandler.setMonster();
         playMusic();
         // tu zatrzymana jest muzyka i dlatego jesli zastanawiasz 
         // sie czmu nie dziala to zakomentuj  ta linijke nizej
@@ -160,6 +166,13 @@ public class GameBoard extends JPanel implements Runnable {
 
         if(gameState == playState){
             player.update();
+
+            // aktualizowanie stanu potworow:
+            for(int i = 0; i < monster.length; i++){
+                if(monster[i] != null){
+                    monster[i].update();
+                }
+            }
         } 
         if(gameState == pauseState){
             // NIC NIE ROBIMY
@@ -218,6 +231,11 @@ public class GameBoard extends JPanel implements Runnable {
                     obj[i].drawCar(g2,this);
                 }
             }
+            for(int i = 0; i < monster.length; i++){
+                if(monster[i] != null){
+                    monster[i].draw(g2);
+                }
+            } 
             player.draw(g2);
             ui.draw(g2);
         }

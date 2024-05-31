@@ -9,6 +9,8 @@ import java.text.DecimalFormat;
 import javax.imageio.ImageIO;
 
 import object.ObjectGun;
+import object.ObjectHeart;
+import object.THEObject;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -20,7 +22,7 @@ public class UI {
     Graphics2D g2;
     Font arial_10, arial_20,OCR_A_Extended_80,OCR_A_Extended_40, OCR_A_Extended_30, OCR_A_Extended_20;
 
-    public BufferedImage playerSkin, gunImage;
+    public BufferedImage playerSkin, gunImage, fullHeart, halfHeart, emptyHeart;
     public String message = "";
     public boolean messageShowing = false;
     private int alpha = 127; // 50% transparent
@@ -43,6 +45,10 @@ public class UI {
 
         ObjectGun gun = new ObjectGun();
         gunImage = gun.image;
+        THEObject heart = new ObjectHeart(gb);
+        fullHeart = heart.image;
+        halfHeart = heart.image2;
+        emptyHeart = heart.image3;
     }
 
     private void getPlayerSkin(){
@@ -77,6 +83,7 @@ public class UI {
             drawPlayScreen();
         }
         if(gb.gameState == gb.pauseState){
+            drawPlayScreen();
             drawPauseScreen();
         }
         // if(gb.gameState == gb.menuKBState){
@@ -115,6 +122,30 @@ public class UI {
 
         g2.drawImage(gunImage, 13 * gb.finalTileSize, temp3 + temp5, temp2 + 2*gb.finalTileSize, gb.finalTileSize,null);
         g2.drawImage(playerSkin,temp2, temp,gb.finalTileSize,gb.finalTileSize,null);
+
+        // Rysowanie serc - poziomu zycia gracza
+            // Puste serca
+            int x = 2*temp2 + gb.finalTileSize;
+            int y = temp + temp2;
+            int i = 0;
+            while(i < gb.player.maxHP/2){
+                g2.drawImage(emptyHeart,x,y,null);
+                i++;
+                x += gb.finalTileSize;
+            }
+            // Obecne serca
+            x = 2*temp2 + gb.finalTileSize;
+            y = temp + temp2;
+            i = 0;
+            while(i < gb.player.HP){
+                g2.drawImage(halfHeart,x,y,null);
+                i++;
+                if(i < gb.player.HP){
+                    g2.drawImage(fullHeart,x,y,null);
+                }
+                i++;
+                x += gb.finalTileSize;
+            }
 
     }
 

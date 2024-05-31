@@ -57,6 +57,10 @@ public class CollisionHandler {
                     entity.collisionState = true;
                 }
                 break;
+            default:
+                System.err.println("Invalid direction: " + entity.direction);
+            break;
+
         }
 
     }
@@ -131,6 +135,99 @@ public class CollisionHandler {
         }
 
         return index;
-
     }
+
+    public int checkEntity(Entity entity, Entity[] target){
+
+        int index = 999;
+
+        for(int i = 0; i < target.length; i++){
+
+            if(target[i] != null){
+                entity.solidRectangle.x = entity.worldX + entity.solidRectangle.x;
+                entity.solidRectangle.y = entity.worldY + entity.solidRectangle.y;
+
+                target[i].solidRectangle.x = target[i].worldX + target[i].solidRectangle.x;
+                target[i].solidRectangle.y = target[i].worldY + target[i].solidRectangle.y;
+            
+                switch(entity.direction){
+                    case "up":
+                        entity.solidRectangle.y -= entity.moveSpeed;
+                        if(entity.solidRectangle.intersects(target[i].solidRectangle)){
+                            entity.collisionState = true;
+                            index = i;
+                        }
+                        break;
+                    case "down":
+                        entity.solidRectangle.y += entity.moveSpeed;
+                        if(entity.solidRectangle.intersects(target[i].solidRectangle)){
+                            entity.collisionState = true;
+                            index = i;
+                        }
+                        break;
+                    case "left":
+                        entity.solidRectangle.x -= entity.moveSpeed;
+                        if(entity.solidRectangle.intersects(target[i].solidRectangle)){
+                            entity.collisionState = true;
+                            index = i;
+                        }
+                        break;
+                    case "right":
+                        entity.solidRectangle.x += entity.moveSpeed;
+                        if(entity.solidRectangle.intersects(target[i].solidRectangle)){
+                            entity.collisionState = true;
+                            index = i;
+                        }
+                        break;
+                }
+                entity.solidRectangle.x = entity.solidAreaX;
+                entity.solidRectangle.y = entity.solidAreaY;
+                target[i].solidRectangle.x = target[i].solidAreaX;
+                target[i].solidRectangle.y = target[i].solidAreaY;
+                
+            }
+            
+
+        }
+        return index;
+    }
+    public void checkPlayer(Entity entity){
+        entity.solidRectangle.x = entity.worldX + entity.solidRectangle.x;
+        entity.solidRectangle.y = entity.worldY + entity.solidRectangle.y;
+
+        gb.player.solidRectangle.x = gb.player.worldX + gb.player.solidRectangle.x;
+        gb.player.solidRectangle.y = gb.player.worldY + gb.player.solidRectangle.y;
+    
+        switch(entity.direction){
+            case "up":
+                entity.solidRectangle.y -= entity.moveSpeed;
+                if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
+                    entity.collisionState = true;
+                }
+                break;
+            case "down":
+                entity.solidRectangle.y += entity.moveSpeed;
+                if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
+                    entity.collisionState = true;
+                }
+                break;
+            case "left":
+                entity.solidRectangle.x -= entity.moveSpeed;
+                if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
+                    entity.collisionState = true;
+                }
+                break;
+            case "right":
+                entity.solidRectangle.x += entity.moveSpeed;
+                if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
+                    entity.collisionState = true;
+                }
+                break;
+        }
+        entity.solidRectangle.x = entity.solidAreaX;
+        entity.solidRectangle.y = entity.solidAreaY;
+        gb.player.solidRectangle.x = gb.player.solidAreaX;
+        gb.player.solidRectangle.y = gb.player.solidAreaY;
+    }
+
 }
