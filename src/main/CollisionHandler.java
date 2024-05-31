@@ -153,32 +153,22 @@ public class CollisionHandler {
                 switch(entity.direction){
                     case "up":
                         entity.solidRectangle.y -= entity.moveSpeed;
-                        if(entity.solidRectangle.intersects(target[i].solidRectangle)){
-                            entity.collisionState = true;
-                            index = i;
-                        }
                         break;
                     case "down":
                         entity.solidRectangle.y += entity.moveSpeed;
-                        if(entity.solidRectangle.intersects(target[i].solidRectangle)){
-                            entity.collisionState = true;
-                            index = i;
-                        }
                         break;
                     case "left":
                         entity.solidRectangle.x -= entity.moveSpeed;
-                        if(entity.solidRectangle.intersects(target[i].solidRectangle)){
-                            entity.collisionState = true;
-                            index = i;
-                        }
                         break;
                     case "right":
                         entity.solidRectangle.x += entity.moveSpeed;
-                        if(entity.solidRectangle.intersects(target[i].solidRectangle)){
-                            entity.collisionState = true;
-                            index = i;
-                        }
                         break;
+                }
+                if(entity.solidRectangle.intersects(target[i].solidRectangle)){
+                    if(target[i] != entity){
+                        entity.collisionState = true;
+                        index = i;
+                    }
                 }
                 entity.solidRectangle.x = entity.solidAreaX;
                 entity.solidRectangle.y = entity.solidAreaY;
@@ -191,7 +181,12 @@ public class CollisionHandler {
         }
         return index;
     }
-    public void checkPlayer(Entity entity){
+
+    // Klasa zwracająca bool czy entity dotyka gracza
+    public boolean checkPlayer(Entity entity){
+
+        boolean contact = false;
+
         entity.solidRectangle.x = entity.worldX + entity.solidRectangle.x;
         entity.solidRectangle.y = entity.worldY + entity.solidRectangle.y;
 
@@ -201,33 +196,28 @@ public class CollisionHandler {
         switch(entity.direction){
             case "up":
                 entity.solidRectangle.y -= entity.moveSpeed;
-                if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
-                    entity.collisionState = true;
-                }
                 break;
             case "down":
                 entity.solidRectangle.y += entity.moveSpeed;
-                if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
-                    entity.collisionState = true;
-                }
                 break;
             case "left":
                 entity.solidRectangle.x -= entity.moveSpeed;
-                if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
-                    entity.collisionState = true;
-                }
                 break;
             case "right":
                 entity.solidRectangle.x += entity.moveSpeed;
-                if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
-                    entity.collisionState = true;
-                }
                 break;
         }
+        if(entity.solidRectangle.intersects(gb.player.solidRectangle)){
+            entity.collisionState = true;
+            contact = true;
+        }
+
         entity.solidRectangle.x = entity.solidAreaX;
         entity.solidRectangle.y = entity.solidAreaY;
         gb.player.solidRectangle.x = gb.player.solidAreaX;
         gb.player.solidRectangle.y = gb.player.solidAreaY;
+
+        return contact;
     }
 
 }

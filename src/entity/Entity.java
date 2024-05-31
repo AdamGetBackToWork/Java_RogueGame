@@ -32,7 +32,10 @@ public class Entity {
     public int solidAreaX, solidAreaY;
     public boolean collisionState = false;
     public String name;
+    public boolean immune = false;
+    public int immuneCount = 0;
     public int actionLockCounter = 0;
+    public int entityType = 1; //Monster = 1
 
     public int maxHP;
     public int HP;
@@ -50,10 +53,16 @@ public class Entity {
 
         collisionState = false;
         gb.collisionHandler.checkTile(this);
-        //gb.collisionHandler.checkEntity(this, gb.monster);
-        gb.collisionHandler.checkPlayer(this);
+        gb.collisionHandler.checkEntity(this, gb.monster);
+        boolean contact = gb.collisionHandler.checkPlayer(this);
 
-
+        if(this.entityType == 1 && contact == true){
+            if(gb.player.immune == false){
+                gb.player.HP -= 1;
+                gb.player.immune = true;
+            }
+        }
+        
         if(collisionState == false){
             switch (direction) {
                 case "up":

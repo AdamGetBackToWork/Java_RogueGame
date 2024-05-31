@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.AlphaComposite;
+
 // package Projekt.src.entity;
 
 import java.awt.Graphics2D;
@@ -178,7 +180,7 @@ public class Player extends Entity{
                     default:
                         break;
                 }
-        }
+            }
         }
 
         if(spriteCount > 8){
@@ -197,7 +199,13 @@ public class Player extends Entity{
             System.out.println(spriteNum);
             spriteCount = 0;
         }
-
+        if(immune == true){
+            immuneCount++;
+            if(immuneCount > 60){
+                immune = false;
+                immuneCount = 0;
+            }
+        }
     }
 
     public void takeObject(int i){
@@ -222,7 +230,10 @@ public class Player extends Entity{
     public void interactMonster(int monIndex){
 
         if(monIndex != 999){
-            System.out.println("youre hitting a mosnter");
+            if(immune == false){
+                HP -= 1;
+                immune = true;
+            }
         }
 
     }
@@ -292,7 +303,13 @@ public class Player extends Entity{
             image = lastDrawnSprite;
             break;                
         }
+
+        if(immune == true){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        }
+
         g2.drawImage(image,screenX,screenY - 1*gb.finalTileSize,gb.finalTileSize,gb.finalTileSize,null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
         lastDrawnSprite = image;
     }
 }

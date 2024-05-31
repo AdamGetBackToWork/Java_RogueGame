@@ -126,7 +126,7 @@ public class UI {
         // Rysowanie serc - poziomu zycia gracza
             // Puste serca
             int x = 2*temp2 + gb.finalTileSize;
-            int y = temp + temp2;
+            int y = temp;
             int i = 0;
             while(i < gb.player.maxHP/2){
                 g2.drawImage(emptyHeart,x,y,null);
@@ -135,7 +135,7 @@ public class UI {
             }
             // Obecne serca
             x = 2*temp2 + gb.finalTileSize;
-            y = temp + temp2;
+            y = temp;
             i = 0;
             while(i < gb.player.HP){
                 g2.drawImage(halfHeart,x,y,null);
@@ -256,7 +256,7 @@ public class UI {
     }
 
     private void drawCreditsScreen() {
-        int temp2 = (int) (0.2*gb.finalTileSize);
+        //int temp2 = (int) (0.2*gb.finalTileSize);
         int temp = (int) (0.5*gb.finalTileSize);
 
         // Ustawienie kolorow ekranu poczatkowego

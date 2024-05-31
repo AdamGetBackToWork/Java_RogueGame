@@ -7,8 +7,6 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import org.w3c.dom.css.Rect;
-
 import entity.Entity;
 import main.GameBoard;
 
@@ -22,6 +20,7 @@ public class MonsterWatcher extends Entity{
         moveSpeed = 1;
         maxHP = 4;
         HP = maxHP;
+        entityType = 1;
 
         solidRectangle = new Rectangle(0,0,gb.finalTileSize,gb.finalTileSize);
         solidRectangle.x = 3;
