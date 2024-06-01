@@ -25,7 +25,7 @@ public class THEObject {
                 worldX < gb.player.worldX + gb.player.screenX + 3 * gb.finalTileSize && 
                 worldY> gb.player.worldY - gb.player.screenY - 3* gb.finalTileSize && 
                 worldY < gb.player.worldY + gb.player.screenY + 3 * gb.finalTileSize){
-                    g2.drawImage(image, screenX, screenY, 3 * gb.finalTileSize, gb.finalTileSize, null);
+                    g2.drawImage(image, screenX, screenY, 3*gb.finalTileSize, gb.finalTileSize, null);
         }
     }
 
@@ -49,7 +49,7 @@ public class THEObject {
                 worldX < gb.player.worldX + gb.player.screenX + 1 * gb.finalTileSize && 
                 worldY> gb.player.worldY - gb.player.screenY - 2 * gb.finalTileSize && 
                 worldY < gb.player.worldY + gb.player.screenY + 2 * gb.finalTileSize){
-                    g2.drawImage(image, screenX, screenY, gb.finalTileSize, 2 * gb.finalTileSize, null);
+                    g2.drawImage(image, screenX, screenY, gb.finalTileSize, 3 * gb.finalTileSize, null);
         }
     }
 

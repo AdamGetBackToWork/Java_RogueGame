@@ -26,7 +26,7 @@ public class TileHandler {
         tileNum = new int[gb.maxWorldCol][gb.maxWorldRow];
 
         getTileImage();
-        loadMap("res\\maps\\mapa.txt");
+        loadMap("res\\maps\\map50x50.txt");
     }
 
     public void getTileImage(){
@@ -40,7 +40,7 @@ public class TileHandler {
         // File file1 = new File("res\\background\\stone.png");
         // File file2 = new File("res\\background\\bricks.png");
         // File file3 = new File("res\\background\\black.png");
-
+        File BLACK = new File("res\\tiles\\palette_colors\\(non-palette)black.png");
         // TILES
             // BUILDINGS
                 // DARKHOUSE
@@ -144,7 +144,8 @@ public class TileHandler {
             // drzwi bundykow i zapalonych swiatel
             // ladnych chodnikow (zaokrąglenia)
             // zaokraglen ulicy
-
+            tile[0].image = ImageIO.read(BLACK);
+            tile[0].collision = true;
             //light house roof - 1
             tile[10].image = ImageIO.read(fileLightBuildRoof);
             tile[11].image = ImageIO.read(fileLightBuildRoofLeft);
@@ -155,6 +156,15 @@ public class TileHandler {
             tile[16].image = ImageIO.read(fileLightBuildRoofTopRight);
             tile[17].image = ImageIO.read(fileLightBuildRoofBottomLeft);
             tile[18].image = ImageIO.read(fileLightBuildRoofBottomRight);
+            tile[10].collision = true;
+            tile[11].collision = true;
+            tile[12].collision = true;
+            tile[13].collision = true;
+            tile[14].collision = true;
+            tile[15].collision = true;
+            tile[16].collision = true;
+            tile[17].collision = true;
+            tile[18].collision = true;
             
             
             //light house blocks - 6
@@ -167,6 +177,21 @@ public class TileHandler {
             tile[66].image = ImageIO.read(fileLightBuildFloorRight);
             tile[67].image = ImageIO.read(fileLightBuildParterLeft);
             tile[68].image = ImageIO.read(fileLightBuildParterRight);
+            // door and lights on 
+            tile[90].image = ImageIO.read(fileLightBuildParterDoor);
+            tile[91].image = ImageIO.read(fileLightBuildFloorDoor2);
+            tile[60].collision = true;
+            tile[61].collision = true;
+            tile[62].collision = true;
+            tile[63].collision = true;
+            tile[64].collision = true;
+            tile[65].collision = true;
+            tile[66].collision = true;
+            tile[67].collision = true;
+            tile[68].collision = true;
+            tile[90].collision = true;
+            tile[91].collision = true;
+
 
             //pavement - to do -> change map
             tile[20].image = ImageIO.read(filePavement1);
@@ -179,6 +204,12 @@ public class TileHandler {
             tile[27].image = ImageIO.read(filePavement1BottomLeft);
             tile[28].image = ImageIO.read(filePavement1BottomRight);
             //to do : inversed | pavements 2 and 3
+            tile[80].image = ImageIO.read(filePavement1InwTopLeft);
+            tile[81].image = ImageIO.read(filePavement1InwTopRight);
+            tile[82].image = ImageIO.read(filePavement1InwBottomLeft);
+            tile[83].image = ImageIO.read(filePavement1InwBottomRight);
+            tile[92].image = ImageIO.read(filePavement2);
+
 
             // road
             // to do: manhole + inverse
@@ -191,6 +222,10 @@ public class TileHandler {
             tile[36].image = ImageIO.read(fileRoadTopRight);
             tile[37].image = ImageIO.read(fileRoadBottomLeft);
             tile[38].image = ImageIO.read(fileRoadBottomRight);
+            // lines and holes
+            tile[84].image = ImageIO.read(fileRoadLineHor);
+            tile[85].image = ImageIO.read(fileRoadLineVer);
+            tile[86].image = ImageIO.read(fileRoadManhole);
 
             //dark building roof - 4
             tile[40].image = ImageIO.read(fileDarkBuildRoof);
@@ -202,7 +237,15 @@ public class TileHandler {
             tile[46].image = ImageIO.read(fileDarkBuildRoofTopRight);
             tile[47].image = ImageIO.read(fileDarkBuildRoofBottomLeft);
             tile[48].image = ImageIO.read(fileDarkBuildRoofBottomRight);
-
+            tile[40].collision = true;
+            tile[41].collision = true;
+            tile[42].collision = true;
+            tile[43].collision = true;
+            tile[44].collision = true;
+            tile[45].collision = true;
+            tile[46].collision = true;
+            tile[47].collision = true;
+            tile[48].collision = true;
             //dark building blocks - 5
             tile[50].image = ImageIO.read(fileDarkBuildFloorMiddle);
             tile[51].image = ImageIO.read(fileDarkBuildFloorLeft);
@@ -213,8 +256,17 @@ public class TileHandler {
             tile[56].image = ImageIO.read(fileDarkBuildFloorRight);
             tile[57].image = ImageIO.read(fileDarkBuildParterLeft);
             tile[58].image = ImageIO.read(fileDarkBuildParterRight);
-
-
+            tile[59].image = ImageIO.read(fileDarkBuildParterDoor);
+            tile[50].collision = true;
+            tile[51].collision = true;
+            tile[52].collision = true;
+            tile[53].collision = true;
+            tile[54].collision = true;
+            tile[55].collision = true;
+            tile[56].collision = true;
+            tile[57].collision = true;
+            tile[58].collision = true;
+            tile[59].collision = true;
             // to do : rest of blocks
 
 
