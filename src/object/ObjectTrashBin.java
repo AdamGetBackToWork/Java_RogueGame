@@ -10,8 +10,11 @@ public class ObjectTrashBin extends THEObject {
     public ObjectTrashBin(){
         name = "TrashBin";
         File imageFile = new File("res\\objects\\street_elem\\trashbin.png");
-        solidArea.width = 24;
-        solidArea.height = 36;
+        
+        solidAreaX = 0;
+        solidAreaY = 4;
+        solidArea.width = 48;
+        solidArea.height = 58;
 
         try {
             image = ImageIO.read(imageFile);

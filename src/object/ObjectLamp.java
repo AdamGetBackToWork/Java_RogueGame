@@ -1,5 +1,6 @@
 package object;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 
@@ -11,10 +12,8 @@ public class ObjectLamp extends THEObject {
         name = "Lamp";
         File imageFile = new File("res\\objects\\street_elem\\lamp.png");
         
-
-        // Object_Car.solidArea(0,0,48,150);
-        solidArea.width = 48;
-        solidArea.height = 144;
+        solidArea = new Rectangle(0, 0, 48, 52);
+        solidAreaY = 102;
 
         try {
             image = ImageIO.read(imageFile);
@@ -24,5 +23,6 @@ public class ObjectLamp extends THEObject {
         collision = true;
     }
 
-}
+    
 
+}

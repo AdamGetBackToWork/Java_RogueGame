@@ -29,6 +29,7 @@ public class ObjectCar extends THEObject {
         
 
         // Object_Car.solidArea(0,0,48,150);
+        solidArea.x = 48;
         solidArea.width = 144;
         solidArea.height = 48;
 
