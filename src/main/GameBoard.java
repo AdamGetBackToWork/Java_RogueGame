@@ -6,6 +6,7 @@ import entity.Player;
 import object.ObjectCar;
 import object.THEObject;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +15,9 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 
 public class GameBoard extends JPanel implements Runnable {
 
@@ -83,6 +87,9 @@ public class GameBoard extends JPanel implements Runnable {
     public final int menuKBState = 6;
     public final int maybeQuitState = 7;
 
+    private final MousePosition mousePosition;
+    private BufferedImage crosshair;
+
     // konstruktor klasy
     public GameBoard() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -90,6 +97,15 @@ public class GameBoard extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(kh);
         this.setFocusable(true);
+
+        this.mousePosition = new MousePosition();
+        try {
+            crosshair = ImageIO.read(new File("res\\misc\\crosshair.png")); // Load the crosshair image
+        } catch (IOException e) {
+            //e.printStackTrace();
+        }
+
+        
     }
 
     public void gameSetup() {
@@ -111,6 +127,9 @@ public class GameBoard extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+        //mouse handler
+        MouseHandler mouseHandler = new MouseHandler(this, this.mousePosition);
+        new Thread(mouseHandler).start();
     }
 
     @Override
@@ -222,6 +241,7 @@ public class GameBoard extends JPanel implements Runnable {
 
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        
 
         if (gameState == titleState) {
             ui.draw(g2);
@@ -249,9 +269,11 @@ public class GameBoard extends JPanel implements Runnable {
                     monster[i].draw(g2);
                 }
             }
-
+            g.drawImage(crosshair, mousePosition.getX()-24, mousePosition.getY()-24,48,48,null);
             ui.draw(g2);
         }
+        //g.setColor(Color.RED);
+        //g.drawOval(mousePosition.getX()-25, mousePosition.getY()-25, 50, 50);
 
         g2.dispose();
     }
