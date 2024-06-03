@@ -20,6 +20,7 @@ public class Entity {
     GameBoard gb;
 
     public int worldX, worldY;
+    public int screenX, screenY;
     public int moveSpeed;
     // dla gracza
     public BufferedImage up1,up2,up3,up4,down1,down2,down3,down4,left1,left2,left3,left4,right1,right2,right3,right4;
@@ -80,13 +81,23 @@ public class Entity {
             }
         }
     }
+    public void deleteInstance(Entity[] array, int index) {
+        if (index >= 0 && index < array.length) {
+            array[index] = null;
+        } else {
+            //System.out.println("Invalid index");
+        }
+    }
+    public void takeDMG(int dmg){
+        this.HP -= 1;
+    }
 
     public void draw(Graphics2D g2){
 
         BufferedImage image = null;
 
-        int screenX = worldX - gb.player.worldX + gb.player.screenX;
-        int screenY = worldY - gb.player.worldY + gb.player.screenY - gb.finalTileSize;
+        screenX = worldX - gb.player.worldX + gb.player.screenX;
+        screenY = worldY - gb.player.worldY + gb.player.screenY - gb.finalTileSize;
 
         if(worldX > gb.player.worldX - gb.player.screenX - gb.finalTileSize && 
                 worldX < gb.player.worldX + gb.player.screenX + gb.finalTileSize && 
@@ -109,7 +120,7 @@ public class Entity {
                         default:
                             break;                
                         }
-
+                    
                     g2.drawImage(image, screenX, screenY, 2*gb.finalTileSize, 2*gb.finalTileSize, null);
         }
 

@@ -72,7 +72,7 @@ public class GameBoard extends JPanel implements Runnable {
     // momencie
     public THEObject obj[] = new THEObject[50];
     // wywołanie konstruktora od powtworow
-    public Entity monster[] = new Entity[20];
+    public Entity monster[] = new Entity[2];
     // wywołanie konstruktora od User Interface
     public UI ui = new UI(this);
     // wywołanie konstruktora od Event Handlera
@@ -191,6 +191,9 @@ public class GameBoard extends JPanel implements Runnable {
             for (int i = 0; i < monster.length; i++) {
                 if (monster[i] != null) {
                     monster[i].update();
+                    if(monster[i].HP<=0){
+                        monster[i].deleteInstance(monster, i);
+                    }
                 }
             }
         }
@@ -265,7 +268,7 @@ public class GameBoard extends JPanel implements Runnable {
                 }
             }
             for (int i = 0; i < monster.length; i++) {
-                if (monster[i] != null) {
+                if (monster[i] != null && monster[i].HP>0) {
                     monster[i].draw(g2);
                 }
             }
