@@ -110,7 +110,7 @@ public class Entity {
                             break;                
                         }
 
-                    g2.drawImage(image, screenX, screenY, gb.finalTileSize, gb.finalTileSize, null);
+                    g2.drawImage(image, screenX, screenY, 2*gb.finalTileSize, 2*gb.finalTileSize, null);
         }
 
     }

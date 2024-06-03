@@ -68,9 +68,9 @@ public class GameBoard extends JPanel implements Runnable {
     public ObjectHandler objectHandler = new ObjectHandler(this);
     // wywołanie konstruktora postaci
     public Player player = new Player(this, kh);
-    // wywołanie konstruktora objektu max 20 objektow wyświetlanych w jednym
+    // wywołanie konstruktora objektu max 50 objektow wyświetlanych w jednym
     // momencie
-    public THEObject obj[] = new THEObject[20];
+    public THEObject obj[] = new THEObject[50];
     // wywołanie konstruktora od powtworow
     public Entity monster[] = new Entity[20];
     // wywołanie konstruktora od User Interface

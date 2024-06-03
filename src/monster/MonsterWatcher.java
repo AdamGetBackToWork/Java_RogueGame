@@ -70,6 +70,7 @@ public class MonsterWatcher extends Entity{
         }
 
     }
+    
 
     // public void getImage(){
     //     File monsterImage1 = new File("res\\monster\\monster.png");

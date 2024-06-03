@@ -100,6 +100,8 @@ public class TileHandler {
             File filePavement2Top = new File("res\\tiles\\pavements\\pavement-tile2-topfence.png");
             File filePavement2 = new File("res\\tiles\\pavements\\pavement-tile2.png");
             File filePavement3 = new File("res\\tiles\\pavements\\pavement-tile3.png");
+            File cobble1 = new File("res\\tiles\\bricks\\cobble1.png");
+            File bricks1 = new File("res\\tiles\\bricks\\brick-tile1.png");
             // ROADS
             File fileRoadBottom = new File("res\\tiles\\roads\\road-bottomend.png");
             File fileRoadBottomLeft = new File("res\\tiles\\roads\\road-bottomleftend.png");
@@ -268,7 +270,7 @@ public class TileHandler {
             tile[58].collision = true;
             tile[59].collision = true;
             // to do : rest of blocks
-
+            tile[99].image = ImageIO.read(cobble1);
 
 
 
