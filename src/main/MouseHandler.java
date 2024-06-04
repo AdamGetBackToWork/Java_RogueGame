@@ -1,23 +1,27 @@
 package main;
 
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+
+// to do : usunac mousePosition klase calkowicie, niepotrzebna!!
+
 public class MouseHandler extends MouseAdapter implements Runnable {
     private final GameBoard gb;
     private final MousePosition mPosition;
     private boolean aimed;
-    private int aimedMonsterId;
+    private int aimedMonsterId=-1;
+    private boolean clicked;
 
     public MouseHandler(GameBoard gb, MousePosition mPosition) {
         this.gb = gb;
         this.mPosition = mPosition;
         gb.addMouseListener(this);
         gb.addMouseMotionListener(this);
-
     }
 
     @Override
@@ -25,6 +29,7 @@ public class MouseHandler extends MouseAdapter implements Runnable {
         // The run method can be used to handle any other logic in the future.
         while (true) {
             try {
+                clicked = false;
                 // System.out.print("mouseevt");
                 //System.out.println(mPosition.getX());
                 Thread.sleep(100); // Adjust the sleep time as needed
@@ -47,6 +52,9 @@ public class MouseHandler extends MouseAdapter implements Runnable {
                     aimedMonsterId = i;
                 }
             }
+            else{
+                //aimed = false;
+            }
         }
     }
 
@@ -58,10 +66,17 @@ public class MouseHandler extends MouseAdapter implements Runnable {
     @Override
     public void mousePressed(MouseEvent e) {
         
-            System.out.println("crosshair in the mdidle");
-            gb.monster[aimedMonsterId].takeDMG(1);
+            if(aimed && gb.monster[aimedMonsterId]!=null){
+                gb.monster[aimedMonsterId].takeDMG(1);
+                
+            }
+            clicked = true;
 
         }
+    public boolean getClickedStatus(){
+        return this.clicked;
+    }
+
         
     }
 

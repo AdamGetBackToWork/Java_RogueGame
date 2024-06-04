@@ -8,6 +8,9 @@ import object.THEObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,6 +20,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.awt.geom.AffineTransform;
 
 
 public class GameBoard extends JPanel implements Runnable {
@@ -88,7 +92,12 @@ public class GameBoard extends JPanel implements Runnable {
     public final int maybeQuitState = 7;
 
     private final MousePosition mousePosition;
-    private BufferedImage crosshair;
+    private BufferedImage crosshair,crosshairHit, magnum;
+    private MouseHandler mouseHandler;
+
+    Color mylightorange = new Color(243, 174, 109);
+    Color mylightyellow = new Color(247, 214, 169);
+    Color myantiquewhite = new Color(251, 237, 217);
 
     // konstruktor klasy
     public GameBoard() {
@@ -100,7 +109,9 @@ public class GameBoard extends JPanel implements Runnable {
 
         this.mousePosition = new MousePosition();
         try {
+            magnum = ImageIO.read(new File("res\\weapons\\magnum.png"));
             crosshair = ImageIO.read(new File("res\\misc\\crosshair.png")); // Load the crosshair image
+            crosshairHit = ImageIO.read(new File("res\\misc\\crosshair_hit.png")); // Load the crosshair image
         } catch (IOException e) {
             //e.printStackTrace();
         }
@@ -128,7 +139,7 @@ public class GameBoard extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
         //mouse handler
-        MouseHandler mouseHandler = new MouseHandler(this, this.mousePosition);
+        mouseHandler = new MouseHandler(this, this.mousePosition);
         new Thread(mouseHandler).start();
     }
 
@@ -272,7 +283,7 @@ public class GameBoard extends JPanel implements Runnable {
                     monster[i].draw(g2);
                 }
             }
-            g.drawImage(crosshair, mousePosition.getX()-24, mousePosition.getY()-24,48,48,null);
+            drawWeapons(g2);
             ui.draw(g2);
         }
         //g.setColor(Color.RED);
@@ -280,6 +291,42 @@ public class GameBoard extends JPanel implements Runnable {
 
         g2.dispose();
     }
+    private void drawWeapons(Graphics2D g2){
+        g2.drawImage(crosshair, mousePosition.getX()-24, mousePosition.getY()-24,48,48,null);
+        
+        //obrot broni itp
+        double angle = Math.atan2(mousePosition.getY() - player.screenY, mousePosition.getX() - player.screenX);
+        int weaponX = (int) (player.screenX+25 * Math.cos(angle))+24;
+        int weaponY = (int) (player.screenY+25 * Math.sin(angle))-24;
+        AffineTransform transform = new AffineTransform();
+        transform.translate(weaponX, weaponY); // Przesunięcie do środka ekranu
+        transform.rotate(angle);
+
+        // Ustawienie skali w osi Y w zależności od położenia myszki
+        int wscale = (mousePosition.getX()  < player.screenX) ? -scale : scale;
+        transform.scale(scale, wscale); // Skalowanie x4 w poziomie, x4 w pionie
+        g2.drawImage(magnum, transform, null);
+        //g2.drawImage(magnum, player.screenX, player.screenY-48, 48,48,null);
+        int strokewidth=20;
+        g2.setColor(Color.RED);
+        g2.drawOval(weaponX, weaponY, 5,5);
+        if(mouseHandler.getClickedStatus()){
+            for (int i = 0; i < 20; i++) {
+                g2.setColor(myantiquewhite);
+                g2.setStroke(new BasicStroke(strokewidth));
+                float alpha = (float) i / 20f; // Calculate opacity
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+                
+                double x1 = player.screenX+24 + 72 * Math.cos(angle);
+                double y1 = player.screenY + 72 * Math.sin(angle);
+                g2.drawLine((int)x1,(int)y1,mousePosition.getX(), mousePosition.getY());
+                g2.drawOval((int)x1-15, (int)y1-15, 30, 30);
+                strokewidth-=1;
+        }
+        //g2.setColor(Color.RED);
+        g2.drawImage(crosshairHit,mousePosition.getX()-24, mousePosition.getY()-24, 48,48,null);
+    }
+}
 
     public void playMusic(/* int i */) {
         sound.setFile(/* i */);
