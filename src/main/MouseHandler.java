@@ -30,6 +30,7 @@ public class MouseHandler extends MouseAdapter implements Runnable {
         while (true) {
             try {
                 clicked = false;
+                aimed = false;
                 // System.out.print("mouseevt");
                 //System.out.println(mPosition.getX());
                 Thread.sleep(100); // Adjust the sleep time as needed
@@ -75,6 +76,9 @@ public class MouseHandler extends MouseAdapter implements Runnable {
         }
     public boolean getClickedStatus(){
         return this.clicked;
+    }
+    public boolean getAimedStatus(){
+        return this.aimed;
     }
 
         

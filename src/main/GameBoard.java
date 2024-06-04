@@ -296,8 +296,8 @@ public class GameBoard extends JPanel implements Runnable {
         
         //obrot broni itp
         double angle = Math.atan2(mousePosition.getY() - player.screenY, mousePosition.getX() - player.screenX);
-        int weaponX = (int) (player.screenX+25 * Math.cos(angle))+24;
-        int weaponY = (int) (player.screenY+25 * Math.sin(angle))-24;
+        int weaponX = (int) (player.screenX+24 * Math.cos(angle))+24;
+        int weaponY = (int) (player.screenY+24 * Math.sin(angle))-24;
         AffineTransform transform = new AffineTransform();
         transform.translate(weaponX, weaponY); // Przesunięcie do środka ekranu
         transform.rotate(angle);
@@ -324,7 +324,7 @@ public class GameBoard extends JPanel implements Runnable {
                 strokewidth-=1;
         }
         //g2.setColor(Color.RED);
-        g2.drawImage(crosshairHit,mousePosition.getX()-24, mousePosition.getY()-24, 48,48,null);
+        if(mouseHandler.getAimedStatus())g2.drawImage(crosshairHit,mousePosition.getX()-24, mousePosition.getY()-24, 48,48,null);
     }
 }
 
