@@ -22,13 +22,21 @@ public class UI {
     Graphics2D g2;
     Font arial_10, arial_20,OCR_A_Extended_80,OCR_A_Extended_40, OCR_A_Extended_30, OCR_A_Extended_20;
 
-    public BufferedImage playerSkin, gunImage, fullHeart, halfHeart, emptyHeart;
+    public BufferedImage playerImage, gunImage, monsterImage, fullHeart, halfHeart, emptyHeart;
     public String message = "";
     public boolean messageShowing = false;
     private int alpha = 127; // 50% transparent
     private Color transpColor= new Color(10,10,10, alpha);
     public int commandNum = 0;
     public int commandNumTitle = 0;
+    
+    private int monsterCounter = 0;
+
+    // Ustawienie kolorow ekranu poczatkowego
+    private Color bckgndColor = new Color(21,42,66);
+    //Color bckgndColor = new Color(0,0,0);
+    private Color txtColor = new Color(247,214,169);
+
     int subState = 0;
 
     double playTime;
@@ -51,13 +59,24 @@ public class UI {
         emptyHeart = heart.image3;
     }
 
-    private void getPlayerSkin(){
+    private void getPlayerGraphic(){
         File file11 = new File("res\\player\\front\\front1.png");
         try {
-            playerSkin = ImageIO.read(file11);
+            playerImage = ImageIO.read(file11);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void getMonsterGraphic(){
+
+        File file11 = new File("res\\monster\\monster.png");
+        try {
+            monsterImage = ImageIO.read(file11);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void showMessage(String text){
@@ -95,7 +114,8 @@ public class UI {
     } 
 
     private void drawPlayScreen(){
-        getPlayerSkin();
+        getPlayerGraphic();
+        getMonsterGraphic();
         int temp = (int) (10*gb.finalTileSize + gb.finalTileSize/2);
         int temp2 = (int) (0.5*gb.finalTileSize);
         int temp3 = (int) (10*gb.finalTileSize + gb.finalTileSize/4);
@@ -104,7 +124,6 @@ public class UI {
 
         g2.setFont(arial_10);
         g2.setColor(Color.ORANGE);
-        // g2.drawString();
 
         g2.setColor(Color.BLACK); 
         g2.setStroke(new BasicStroke(2));
@@ -114,14 +133,15 @@ public class UI {
         g2.drawRect(temp5,temp3, gb.finalTileSize + temp2, temp4);
         g2.drawRect(13 * gb.finalTileSize - temp5,temp3, 3*gb.finalTileSize, temp4);
 
-        // for this to work we need to call it from for e.g Player class collision checker part
+
+        // zeby to dzialalo to trzeba to wywolac z np klasy Player collision checker'a
         playTime += (double) (1/60);
         g2.setColor(Color.ORANGE);
         g2.drawString("Time: "+dFormat.format(playTime), temp2 + 14*gb.finalTileSize, temp2);
         g2.drawString("FPS: "+dFormat.format(playTime), temp2 + 14*gb.finalTileSize, temp5+temp2);
 
         g2.drawImage(gunImage, 13 * gb.finalTileSize, temp3 + temp5, temp2 + 2*gb.finalTileSize, gb.finalTileSize,null);
-        g2.drawImage(playerSkin,temp2, temp,gb.finalTileSize,gb.finalTileSize,null);
+        g2.drawImage(playerImage,temp2, temp,gb.finalTileSize,gb.finalTileSize,null);
 
         // Rysowanie serc - poziomu zycia gracza
             // Puste serca
@@ -147,17 +167,28 @@ public class UI {
                 x += gb.finalTileSize;
             }
 
+        // Rysowanie grafiki potwora oraz wyswietlanie ilosci zabitych potworow
+            g2.drawImage(monsterImage,11*gb.finalTileSize+temp5, temp,gb.finalTileSize,gb.finalTileSize,null);
+            g2.setFont(OCR_A_Extended_30);
+            g2.setColor(txtColor);
+            g2.drawString("X", 10*gb.finalTileSize, temp+temp2+temp5);
+
+            // inkrementacja zliczania ilosci zabitych potworow w celu wyswietlenia ich w UI
+            if (gb.monster[0] == null || gb.monster[1] == null) {
+                monsterCounter = 1;
+            }
+            if (gb.monster[0] == null && gb.monster[1] == null) {
+                monsterCounter = 2;
+            }
+
+            // rysowanie ilosci zabitych potworow
+            g2.drawString(String.valueOf(monsterCounter), 10*gb.finalTileSize+temp2, temp+temp2+temp5);
     }
 
     public void drawTitleScreen() {
 
         int temp2 = (int) (0.2*gb.finalTileSize);
         int temp = (int) (0.5*gb.finalTileSize);
-
-        // Ustawienie kolorow ekranu poczatkowego
-        Color bckgndColor = new Color(21,42,66);
-        //Color bckgndColor = new Color(0,0,0);
-        Color txtColor = new Color(247,214,169);
 
 
         // Rysowanie tla ekranu poczatkowego
@@ -583,55 +614,6 @@ public class UI {
         }
 
     }
-
-    // public void drawQuitQuestion(){
-    //     int temp = (int)(0.5*gb.finalTileSize);
-
-    //     g2.setColor(transpColor);
-    //     g2.fillRect(0, 0, 16*gb.finalTileSize, 16*gb.finalTileSize);
-        
-    //     int frameX = gb.finalTileSize*4;
-    //     int frameY = gb.finalTileSize;
-    //     int frameWidth = gb.finalTileSize*8;
-    //     int frameHeight = gb.finalTileSize*10;
-
-    //     drawSubWindow(frameX,frameY,frameWidth,frameHeight);
-
-    //     g2.setFont(OCR_A_Extended_40);
-    //     String text = "Quit the game and return to title screen?";
-
-    //     int textY = gb.screenHeight/2 - gb.finalTileSize*3 ;
-    //     int textX = centerText(text);
-
-
-    //     g2.drawString(text, textX, textY);
-        
-    //     g2.setFont(OCR_A_Extended_20);
-    //     text = "Yes";
-    //     textX = centerText(text);
-    //     textY += gb.finalTileSize;
-    //     g2.drawString(text, textX, textY);
-    //     if(commandNum == 0){
-    //         g2.drawString(">", textX-temp, textY);
-    //         if(gb.kh.enterPress == true){
-    //             subState = 0;
-    //             gb.gameState = gb.titleState;
-    //         }
-    //     }
-
-    //     text = "No";
-    //     textX = centerText(text);
-    //     textY += gb.finalTileSize;
-    //     g2.drawString(text, textX, textY);
-    //     if(commandNum == 1){
-    //         g2.drawString(">", textX-temp, textY);
-    //         if(gb.kh.enterPress == true){
-    //             subState = 0;
-    //             gb.gameState = gb.playState;
-    //         }
-    //     }
-
-    // }
 
     public void drawSubWindow(int x, int y, int width, int height){
         Color c = new Color(83,78,102,127);

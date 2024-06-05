@@ -262,7 +262,6 @@ public class GameBoard extends JPanel implements Runnable {
         } else {
             th.draw(g2);
             player.draw(g2);
-            drawWeapons(g2);
             for (int i = 0; i < obj.length; i++) {
                 if (obj[i] != null) {
                     switch (obj[i].getClass().getSimpleName()) {
@@ -284,6 +283,7 @@ public class GameBoard extends JPanel implements Runnable {
                     monster[i].draw(g2);
                 }
             }
+            drawWeapons(g2);
             ui.draw(g2);
         }
         //g.setColor(Color.RED);
