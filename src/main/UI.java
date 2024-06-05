@@ -173,12 +173,9 @@ public class UI {
             g2.setColor(txtColor);
             g2.drawString("X", 10*gb.finalTileSize, temp+temp2+temp5);
 
-            // inkrementacja zliczania ilosci zabitych potworow w celu wyswietlenia ich w UI
-            if (gb.monster[0] == null || gb.monster[1] == null) {
+            // inkrementacja zliczania ilosci zabitych potworow w celu wyswietlenia ich w UI dla jednego przeciwnika na mapie
+            if (gb.monster[0] == null) {
                 monsterCounter = 1;
-            }
-            if (gb.monster[0] == null && gb.monster[1] == null) {
-                monsterCounter = 2;
             }
 
             // rysowanie ilosci zabitych potworow

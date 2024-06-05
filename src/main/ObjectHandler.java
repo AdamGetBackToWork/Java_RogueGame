@@ -132,8 +132,6 @@ public class ObjectHandler {
         gb.monster[0].worldX = gb.finalTileSize * 22;
         gb.monster[0].worldY = gb.finalTileSize * 22;
 
-        gb.monster[1] = new MonsterWatcher(gb);
-        gb.monster[1].worldX = gb.finalTileSize * 15;
-        gb.monster[1].worldY = gb.finalTileSize * 15;
+        
     }
 }
