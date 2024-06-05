@@ -1,22 +1,27 @@
+// Klasa implementujaca interfejs KeyListener sluzaca do zbierania inputow z klawiatury
+
 package main;
 
-import java.awt.RenderingHints.Key;
+// importy javy
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+// cialo klasy
 public class KeyHandler implements KeyListener {
 
     GameBoard gb;
     public boolean upPress, downPress, leftPress, rightPress, elsePress, enterPress;
 
+    // kosntruktor klasy
     public KeyHandler(GameBoard gb) {
         this.gb = gb;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
 
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    // nadpisanie metody keyPressed z KeyListenera z rozdzieleniem na switch case'a
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -35,9 +40,6 @@ public class KeyHandler implements KeyListener {
             endGameState(code);
         }
 
-        // if (gb.gameState == gb.menuKBState){
-        // menuKBState(code);
-        // }
         if (!(code == KeyEvent.VK_W || code == KeyEvent.VK_A || code == KeyEvent.VK_S || code == KeyEvent.VK_D
                 || code == KeyEvent.VK_ESCAPE)) {
             elsePress = true;
@@ -66,6 +68,7 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    // interpretacje inputow z klawiatury przy wlaczonej rozgrywce
     public void playState(int code) {
         if (code == KeyEvent.VK_W) {
             upPress = true;
@@ -88,6 +91,7 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    // interpretacje inputow z klawiatury przy ekranie tytulowym
     private void titleState(int code) {
         if (code == KeyEvent.VK_W) {
             gb.ui.commandNumTitle--;
@@ -115,6 +119,7 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    // interpretacje inputow z klawiatury przy oknie zakonczenia rozgrywki
     private void endGameState(int code) {
 
         if (code == KeyEvent.VK_ENTER) {
@@ -124,12 +129,14 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    // interpretacje inputow z klawiatury przy oknie autorow (TitleScreen -> Credits)
     private void creditsState(int code) {
         if (code == KeyEvent.VK_ESCAPE) {
             gb.gameState = gb.titleState;
         }
     }
 
+    // interpretacje inputow z klawiatury przy zatrzymaniu rozgrywki
     public void pauseState(int code) {
         if (code == KeyEvent.VK_ESCAPE) {
             gb.gameState = gb.playState;
@@ -188,46 +195,4 @@ public class KeyHandler implements KeyListener {
             }
         }
     }
-    // public void menuKBState(int code){
-    // if(code == KeyEvent.VK_ESCAPE){
-    // gb.gameState = gb.playState;
-    // }
-    // if(code == KeyEvent.VK_ENTER){
-    // if(gb.ui.commandNum == 0){
-    // enterPress = true;
-    // gb.ui.commandNum = 0;
-    // }
-    // if(gb.ui.commandNum == 1){
-    // gb.gameState = gb.creditsState;
-    // gb.ui.commandNum = 0;
-    // }
-    // if(gb.ui.commandNum == 2){
-    // System.exit(0);
-    // gb.ui.commandNum = 0;
-    // }
-    // if(gb.ui.commandNum == 3){
-    // enterPress = true;
-    // gb.ui.commandNum = 0;
-    // }
-    // if(gb.ui.commandNum == 4){
-    // gb.gameState = gb.maybeQuitState;
-    // gb.ui.commandNum = 0;
-    // }
-    // gb.ui.commandNum = 0;
-    // enterPress = false;
-    // }
-
-    // if(code == KeyEvent.VK_W){
-    // gb.ui.commandNum--;
-    // if(gb.ui.commandNum < 0){
-    // gb.ui.commandNum = 4;
-    // }
-    // }
-    // if(code == KeyEvent.VK_S){
-    // gb.ui.commandNum++;
-    // if(gb.ui.commandNum > 4){
-    // gb.ui.commandNum = 0;
-    // }
-    // }
-    // }
 }

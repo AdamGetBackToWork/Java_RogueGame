@@ -1,19 +1,28 @@
+// Klasa do wypelniania tablicy obiektow odpowiednimi grafikami o odpowiednich polach
+
 package main;
 
-import monster.MonsterWatcher;
+// importy javy
 import object.ObjectBottles;
 import object.ObjectCar;
 import object.ObjectLamp;
 import object.ObjectTrashBin;
 
+// importy projektowe
+import monster.MonsterWatcher;
+
+// cialo klasy
 public class ObjectHandler {
 
     GameBoard gb;
 
+    // konstruktor klasy
     public ObjectHandler(GameBoard gb) {
         this.gb = gb;
     }
 
+    // okreslanie pozycji obiektow na mapie, niestety mozolne ale jest ok
+    // dalszy pomysl, czytanie z pliku .txt rozmieszczenia ich
     public void setObject() {
         // parking lot
         gb.obj[0] = new ObjectCar(1, true);
@@ -127,6 +136,7 @@ public class ObjectHandler {
         gb.obj[25].worldY = 24 * gb.finalTileSize;
     }
 
+    // metoda do stawiania potwora na mapie
     public void setMonster() {
         gb.monster[0] = new MonsterWatcher(gb);
         gb.monster[0].worldX = gb.finalTileSize * 22;

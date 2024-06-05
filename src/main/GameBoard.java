@@ -1,22 +1,30 @@
+/* 
+ * To jest tak naprawde najwazniejsza klasa tej gry. W niej updatujemy wszystko, rysujemy, etc
+ * 
+ * Klasa ta dziedziczy po JPanel (by wyswietlac w oknie i implementuje Runnable, by moc chodzic...
+ * Jest sercem gry. 
+ * 
+ * 
+ */
+
+
 package main;
 
+// importy projektowe
 import background.TileHandler;
 import entity.Entity;
 import entity.Player;
-import object.ObjectCar;
 import object.THEObject;
 
+// importy javy
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -47,9 +55,6 @@ public class GameBoard extends JPanel implements Runnable {
     private boolean monstersDead = false;
     private int endCount = 0;
     private boolean outOfLives = false;
-
-    // public final int worldWidth = finalTileSize * maxWorldCol;
-    // public final int worldHeight = finalTileSize * maxWorldRow;
 
     // PELNY EKRAN zmienne
     int screenWidth2 = screenWidth;
@@ -108,31 +113,30 @@ public class GameBoard extends JPanel implements Runnable {
 
     // konstruktor klasy
     public GameBoard() {
+        // ustalanie wszysktich nasluchow oraz bazowe przygotowanie planszy
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(kh);
         this.setFocusable(true);
 
+        // do obslugi drugiego watku - pobieranie grafik
         this.mousePosition = new MousePosition();
         try {
             magnum = ImageIO.read(new File("res\\weapons\\magnum.png"));
             crosshair = ImageIO.read(new File("res\\misc\\crosshair.png")); // Load the crosshair image
             crosshairHit = ImageIO.read(new File("res\\misc\\crosshair_hit.png")); // Load the crosshair image
         } catch (IOException e) {
-            // e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     public void gameSetup() {
         objectHandler.setObject();
         objectHandler.setMonster();
-        playMusic();
-        // tu zatrzymana jest muzyka i dlatego jesli zastanawiasz
-        // sie czmu nie dziala to zakomentuj ta linijke nizej
-        stopMusic();
         gameState = titleState;
 
+        // PONIZEJ KOD DO PELNEGO EKRANU
         // tempScreen = new BufferedImage(screenWidth, screenHeight,
         // BufferedImage.TYPE_INT_ARGB);
         // g2 = (Graphics2D)tempScreen.getGraphics();
@@ -140,14 +144,24 @@ public class GameBoard extends JPanel implements Runnable {
         // setFullScreen();
     }
 
+    // Rozpaczecie watkow
     public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
-        // mouse handler
-        mouseHandler = new MouseHandler(this, this.mousePosition);
-        new Thread(mouseHandler).start();
+        
+        /* Tutaj w ramach "watku gry" (tak naprawde, startGameThread to ofc nie jest watek, 
+        *  to metoda "go" rozpoczynajaca, na niego sklada sie watek samej rozgrywki oraz
+        *  nasluch myszy), rozpoczynamy odpowiednie watki by zaimplementowac wielowatkowosc 
+        */
+
+            // wATEK 1: rozgrywka
+            gameThread = new Thread(this);
+            gameThread.start();
+            // WATEK 2: obsluga myszy
+            mouseHandler = new MouseHandler(this, this.mousePosition);
+            new Thread(mouseHandler).start();
     }
 
+    // Nadpisanie metody z Runnable
+    // Jest ta metoda dosyc wybrakowana, stad warningi nieuzywanych pol, natomiast daje ona pole do dalszego rozwoju gry
     @Override
     public void run() {
 
@@ -184,10 +198,12 @@ public class GameBoard extends JPanel implements Runnable {
             // if(keyHandler.elsePress == true){
             // System.out.println("nacisnieto zly klawisz");
             // }
+
+            // glownie do debuggu 
             if (kh.elsePress == true) {
                 if (!wrongKeyMessagePrinted) {
-
                     wrongKeyMessagePrinted = true;
+                    //System.out.println("niewlasciwy klawisz");
                 }
             } else {
                 wrongKeyMessagePrinted = false;
@@ -195,6 +211,7 @@ public class GameBoard extends JPanel implements Runnable {
         }
     }
 
+    // Metoda do sprawdzania skonczenia rozgrywki - do wywolania przy kazdym update gry
     private void checkEndCondition() {
         if (monster[0] == null) {
             monstersDead = true;
@@ -210,14 +227,18 @@ public class GameBoard extends JPanel implements Runnable {
             endGame();
     }
 
+    // metoda okreslajaca procedure zakonczenia gry
     private void endGame() {
         gamelog.saveGameStats();
         gamelog.saveGameLog();
     }
 
+    // metoda do update'u wszystkiego co na planszy
     public void update() {
 
+        // update tylko gdy jestesmy w gameState
         if (gameState == playState) {
+
             player.update();
 
             // aktualizowanie stanu potworow:
@@ -233,47 +254,55 @@ public class GameBoard extends JPanel implements Runnable {
         if (gameState == pauseState) {
             // NIC NIE ROBIMY
         }
+
+        // za kazdym razem sprawdzenie czy gra sie juz nie skonczyla!
         checkEndCondition();
 
     }
 
-    // public void drawTempScreen(){
+    // TEGO PONIZEJ NIE USUWAC, MOZE SIE PRZYDAC DO DALSZEGO ROZWOJU GRY - OBSLUGA FULL SCREEN
 
-    // if(gameState == titleState){
-    // ui.draw(g2);
-    // } else {
-    // th.draw(g2);
-    // for(int i = 0; i < obj.length; i++){
-    // if(obj[i] != null){
-    // obj[i].drawCar(g2,this);
-    // }
-    // }
-    // player.draw(g2);
-    // ui.draw(g2);
-    // }
-    // }
+            // public void drawTempScreen(){
 
-    // public void drawScreen(){
+            // if(gameState == titleState){
+            // ui.draw(g2);
+            // } else {
+            // th.draw(g2);
+            // for(int i = 0; i < obj.length; i++){
+            // if(obj[i] != null){
+            // obj[i].drawCar(g2,this);
+            // }
+            // }
+            // player.draw(g2);
+            // ui.draw(g2);
+            // }
+            // }
 
-    // Graphics g = getGraphics();
-    // g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2,null);
-    // g.dispose();
+            // public void drawScreen(){
 
-    // }
+            // Graphics g = getGraphics();
+            // g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2,null);
+            // g.dispose();
 
-    // public void setFullScreen(){
+            // }
 
-    // // identyfikacja lokalnego ekranu
-    // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    // GraphicsDevice gd = ge.getDefaultScreenDevice();
-    // gd.setFullScreenWindow(Main.window);
+            // public void setFullScreen(){
 
-    // //pobranie rozmiarow ekranu
-    // screenWidth2 = Main.window.getWidth();
-    // screenHeight2 = Main.window.getHeight();
+            // // identyfikacja lokalnego ekranu
+            // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            // GraphicsDevice gd = ge.getDefaultScreenDevice();
+            // gd.setFullScreenWindow(Main.window);
 
-    // }
+            // //pobranie rozmiarow ekranu
+            // screenWidth2 = Main.window.getWidth();
+            // screenHeight2 = Main.window.getHeight();
 
+            // }
+
+    
+    // metoda do rysowania wszelkich rzeczy, UI, gracza, potwora, itp. itd.
+    // Kolejnosc rysowania okresla kolejnosc wyswietlania, zatem jesli po 
+    // tilesach wyswietlimy gracza, to gracz bedzie na tilesach i vice versa
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -308,12 +337,10 @@ public class GameBoard extends JPanel implements Runnable {
             drawWeapons(g2);
             ui.draw(g2);
         }
-        // g.setColor(Color.RED);
-        // g.drawOval(mousePosition.getX()-25, mousePosition.getY()-25, 50, 50);
-
         g2.dispose();
     }
 
+    // metoda do rysowania broni juz uzywalnej, WAZNE - INNA OD TEJ Z RYSOWANA OBIEKTU (tamta sluzy do rysowania np w celu pozniejszego podniesienia)
     private void drawWeapons(Graphics2D g2) {
         g2.drawImage(crosshair, mousePosition.getX() - 24, mousePosition.getY() - 24, 48, 48, null);
 
@@ -346,25 +373,20 @@ public class GameBoard extends JPanel implements Runnable {
                 g2.drawOval((int) x1 - 15, (int) y1 - 15, 30, 30);
                 strokewidth -= 1;
             }
-            // g2.setColor(Color.RED);
             if (mouseHandler.getAimedStatus())
                 g2.drawImage(crosshairHit, mousePosition.getX() - 24, mousePosition.getY() - 24, 48, 48, null);
         }
     }
 
-    public void playMusic(/* int i */) {
-        sound.setFile(/* i */);
+    // metoda do puszcenia i zapetlenia muzyczki z samej planszy rozgrywki
+    public void playMusic() {
+        sound.setFile();
         sound.play();
         sound.loop();
     }
 
+    // zatrzymanie muzyczki z gameboarda
     public void stopMusic() {
         sound.stop();
     }
-
-    public void playSE(/* int i */) {
-        sound.setFile(/* i */);
-        sound.play();
-    }
-
 }

@@ -10,10 +10,12 @@ public class CollisionHandler {
 
     GameBoard gb;
 
+    // konstruktor klasy
     public CollisionHandler(GameBoard gb) {
         this.gb = gb;
     }
 
+    // metod asprawdzania ze wszystkich stron czy entity - podmiot czegos dotyka
     public void checkTile(Entity entity) {
 
         int entityLeftX = entity.worldX + entity.solidRectangle.x;
@@ -62,13 +64,14 @@ public class CollisionHandler {
                 }
                 break;
             default:
-                System.err.println("Invalid direction: " + entity.direction);
+                //System.err.println("Invalid direction: " + entity.direction);
                 break;
 
         }
 
     }
 
+    // sprawdzanie czy entity dotyka objektu jak np. lampy/samochodu
     public int checkObject(Entity entity, boolean player) {
 
         int index = 100;
@@ -139,7 +142,8 @@ public class CollisionHandler {
 
         return index;
     }
-
+    
+    // sprawdzenie czy podmiot dotyka innego podmiotu
     public int checkEntity(Entity entity, Entity[] target) {
 
         int index = 100;
@@ -184,7 +188,7 @@ public class CollisionHandler {
         return index;
     }
 
-    // Klasa zwracająca bool czy entity dotyka gracza
+    // metoda zwracająca bool czy entity dotyka gracza, aka czy atakuje nas potwor
     public boolean checkPlayer(Entity entity) {
 
         boolean contact = false;

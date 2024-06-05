@@ -1,5 +1,8 @@
+// Klasa do oblsugi zapisu watkowego do pliku
+
 package main;
 
+// importy javy
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,7 +11,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.JOptionPane;
 
 // klasa odpowiedzialna za zapis statystyk na zakończeniu rozgrywki do pliku

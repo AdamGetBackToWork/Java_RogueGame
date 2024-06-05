@@ -156,7 +156,7 @@ public class Player extends Entity{
             //
             int objIndex = gb.collisionHandler.checkObject(this, true);
     
-            // sprawdzanie wystapienia eventu
+            // sprawdzanie wystapienia eventu - nie wiem jakiego, cos mialem na mysli juz zapomnialem...
             gb.eh.checkEvent();
     
             // jesli nie dotykamy nic (nie wystepuje kolizja) to zmiana pozycji swiata wzgledem postaci

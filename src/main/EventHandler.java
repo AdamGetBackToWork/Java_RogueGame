@@ -1,13 +1,19 @@
+// Dosyc dziwna klasa, wyszla w praniu
+// sluzy do okreslania zdarzenia jak nasza postac w wyniku kolizji z potworem otrzymuje obrazenia
+
 package main;
 
+// importy javy
 import java.awt.Rectangle;
 
+// cialo klasy
 public class EventHandler {
 
     GameBoard gb;
     Rectangle eventRect;
     int defEventRectX, defEventRectY;
 
+    // konstruktor klasy
     public EventHandler(GameBoard gb) {
         this.gb = gb;
 
@@ -20,12 +26,10 @@ public class EventHandler {
         defEventRectY = eventRect.y;
     }
 
-    public void checkEvent() {
-        // if(hit()){
+    // do overwrite'u lub czegos innego, szczerze mowiac zapomnialem po co mi to
+    public void checkEvent() {}
 
-        // }
-    }
-
+    // metoda do sprawdzenia uderzenia w przeciwnika
     public boolean hit(int eventCol, int eventRow, String reqDirection) {
 
         boolean hit = false;

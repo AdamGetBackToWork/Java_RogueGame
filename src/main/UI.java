@@ -1,20 +1,38 @@
+// Tutaj by za duzo pisac komentarzy, mozemy sie tym zajac przed obrona projektu, ale tak:
+
+/*
+ *  Klasa UI ma swojego switch case'a, dokladniej w metodzie "draw". Tam w zaleznosci od game State'u
+ *  rysowane jest odpowiednie UI. Przez niezmiennosc stanu UI "pod spodem", mozemy rysowac jedno na 
+ *  drugim. Kazda konkretna metoda wykrozsytywana do rysowanie konkretnego UI ma swoje "tempy" - czyli
+ *  takie temporary wartosci, sluzace do przechowywania zrzutowanych na int wartosci odleglosci na 
+ *  ekranie. 
+ *  
+ *  Poza metodami rysujacymi konkretne mozliwosci/stany UI, rowniez sa metody pobierajace grafiki w celu
+ *  ich pozniejszego wyswietlenia na UI, oraz metody pomocnicze, jak np. metoda do centrowania tekstu, 
+ *  lub metoda do wyswietlania dodatkowego okna.
+ * 
+ *  Poziom skomplikowania tej klasy jest duzy, zdajemy sobie z tego sprawe, jednak jesli bedziemy mieli 
+ *  chwile, rozwiazemy to spaghetti i stworzymy ladniej opisana, re-uzywalna, klase z uporzadkowanymi
+ *  metodami.
+ * 
+ *  Do tego czasu, to dziala, robi co ma robic, jest czesciowo hermetyzowalne i tyle :).
+ */
+
 package main;
 
+import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-
-import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.BasicStroke;
 
 import object.ObjectGun;
 import object.ObjectHeart;
 import object.THEObject;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.BasicStroke;
 
 public class UI {
 

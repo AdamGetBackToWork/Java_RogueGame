@@ -1,9 +1,12 @@
+// Klasa odpowiedzialna za obsługę myszy w kontekście mechanik 
+
 package main;
 
+// importy javy
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-// klasa odpowiedzialna za obsługę myszy w kontekście mechanik 
+// cialo klasy
 public class MouseHandler extends MouseAdapter implements Runnable {
     private final GameBoard gb;
     private final MousePosition mPosition;

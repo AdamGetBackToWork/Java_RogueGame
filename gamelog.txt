@@ -1,0 +1,7 @@
+{Game status=Win, Game time [s]=15, HP=10, Date=2024-06-06}
+
+=== Game Stats === 
+Game status : Win
+Game time [s] : 15
+HP : 10
+Date : 2024-06-06

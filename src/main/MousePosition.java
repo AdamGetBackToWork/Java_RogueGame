@@ -1,3 +1,6 @@
+// Klasa do okreslania pozycji myszy na ekranie i udostepniania tej pozycji
+// w sumie to tyle, klasa bardziej hermetyzujaca nizeli cokolwiek innego
+
 package main;
 
 public class MousePosition {
