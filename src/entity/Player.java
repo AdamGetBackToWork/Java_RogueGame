@@ -194,7 +194,7 @@ public class Player extends Entity{
             else if(spriteNum == 4){
                 spriteNum = 1;
             }
-            System.out.println(spriteNum);
+            //System.out.println(spriteNum);
             spriteCount = 0;
         }
 

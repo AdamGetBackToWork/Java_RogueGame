@@ -34,6 +34,10 @@ public class KeyHandler implements KeyListener{
         else if (gb.gameState == gb.pauseState){
             pauseState(code);
         }
+        else if (gb.gameState == gb.endGameState){
+            endGameState(code);
+        }
+
         // if (gb.gameState == gb.menuKBState){
         //     menuKBState(code);
         // }
@@ -109,6 +113,15 @@ public class KeyHandler implements KeyListener{
             }
             if(gb.ui.commandNumTitle == 2){
                 System.exit(0);
+            }
+        }
+    }
+
+    private void endGameState(int code){
+        
+        if (code == KeyEvent.VK_ENTER){
+            if(gb.ui.commandNumEnd == 0){
+                System.exit(0);  
             }
         }
     }

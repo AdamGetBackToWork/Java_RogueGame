@@ -29,6 +29,7 @@ public class UI {
     private Color transpColor= new Color(10,10,10, alpha);
     public int commandNum = 0;
     public int commandNumTitle = 0;
+    public int commandNumEnd = 0;
     
     private int monsterCounter = 0;
 
@@ -106,6 +107,8 @@ public class UI {
             drawPauseScreen();
         }
         if(gb.gameState == gb.endGameState){
+            drawPlayScreen();
+
             drawEndScreen();
         }
         // if(gb.gameState == gb.menuKBState){
@@ -185,7 +188,55 @@ public class UI {
             g2.drawString(String.valueOf(monsterCounter), 10*gb.finalTileSize+temp2, temp+temp2+temp5);
     }
 
-    public void drawEndScreen(){}
+    public void drawEndScreen(){
+
+            // pause background
+        g2.setColor(transpColor);
+        g2.fillRect(0, 0, 16*gb.finalTileSize, 16*gb.finalTileSize);
+
+        int frameX = gb.finalTileSize*4;
+        int frameY = gb.finalTileSize;
+        int frameWidth = gb.finalTileSize*8;
+        int frameHeight = gb.finalTileSize*10;
+
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+
+        drawEndChoice(frameX,frameY);
+
+        gb.kh.enterPress = false;
+
+    }
+
+    public void drawEndChoice(int frameX, int frameY){
+
+        int temp = (int)(0.5*gb.finalTileSize);
+        int temp2 = (int)(0.4*gb.finalTileSize);
+        int temp3 = (int)(2*gb.finalTileSize/5);
+
+         // Draw top strings
+         Color c = new Color(247,214,169);
+         g2.setColor(c);
+ 
+         g2.setFont(OCR_A_Extended_40);
+         String text = "GAME OVER"; 
+         int textY = gb.screenHeight/2 - gb.finalTileSize*3 ;
+         int textX = centerText(text);
+         g2.drawString(text, textX, textY);
+
+         g2.setFont(OCR_A_Extended_30);
+         int textX3 = centerText(text);
+             // End game
+                 textY = gb.screenHeight/2 + 2*gb.finalTileSize;
+                 g2.drawString("Quit Game", textX3, textY);
+                 if (commandNumEnd == 0){
+                    g2.drawString(">", textX3 - temp, textY);
+                    if(gb.kh.enterPress == true){
+                       commandNumEnd = 0;
+                    }
+                 }
+
+    }
+
     public void drawTitleScreen() {
 
         int temp2 = (int) (0.2*gb.finalTileSize);
@@ -442,7 +493,7 @@ public class UI {
             //      }
              // End game
                  textY = gb.screenHeight/2 + 4*gb.finalTileSize;
-                 g2.drawString("End game", textX3, textY);
+                 g2.drawString("Quit game", textX3, textY);
                  if (commandNum == 4){
                     g2.drawString(">", textX3 - temp, textY);
                     if(gb.kh.enterPress == true){
@@ -574,7 +625,7 @@ public class UI {
 
         g2.setFont(OCR_A_Extended_20);
 
-        String text = "Quit the game and \nreturn to title screen?";
+        String text = "Are you sure you \nwant to quit the game?";
         for(String line: text.split("\n")){
             g2.drawString(line, textX, textY);
             textY += gb.finalTileSize;
@@ -592,7 +643,7 @@ public class UI {
             if(gb.kh.enterPress == true){
                 subState = 0;
                 gb.stopMusic();
-                gb.gameState = gb.titleState;
+                System.exit(0);
             }
         }
 

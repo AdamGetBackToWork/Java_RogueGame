@@ -1,7 +1,11 @@
+// Wazna klasa do sprawdzania stanu kolizji i zarzadzania nimi
+
 package main;
 
+// importy javy
 import entity.Entity;
 
+// cialo klasy
 public class CollisionHandler {
 
     GameBoard gb;

@@ -45,6 +45,10 @@ public class GameBoard extends JPanel implements Runnable {
     public final int maxWorldCol = 50; // was 34
     public final int maxWorldRow = 50; // was 24
 
+    private boolean monstersDead = false;
+    private int endCount = 0;
+    private boolean outOfLives = false;
+
     // public final int worldWidth = finalTileSize * maxWorldCol;
     // public final int worldHeight = finalTileSize * maxWorldRow;
 
@@ -98,6 +102,8 @@ public class GameBoard extends JPanel implements Runnable {
     private BufferedImage crosshair,crosshairHit, magnum;
     private MouseHandler mouseHandler;
 
+
+
     Color mylightorange = new Color(243, 174, 109);
     Color mylightyellow = new Color(247, 214, 169);
     Color myantiquewhite = new Color(251, 237, 217);
@@ -118,8 +124,6 @@ public class GameBoard extends JPanel implements Runnable {
         } catch (IOException e) {
             //e.printStackTrace();
         }
-
-        
     }
 
     public void gameSetup() {
@@ -185,15 +189,12 @@ public class GameBoard extends JPanel implements Runnable {
             if (kh.elsePress == true) {
                 if (!wrongKeyMessagePrinted) {
 
-                    System.out.println("Rostek ssie pałe");
-                    wrongKeyMessagePrinted = true; // Set the flag to true after printing the message
+                    wrongKeyMessagePrinted = true;
                 }
             } else {
-                wrongKeyMessagePrinted = false; // Reset the flag if the correct key is pressed
+                wrongKeyMessagePrinted = false;
             }
-
         }
-
     }
 
     public void update() {
@@ -214,7 +215,16 @@ public class GameBoard extends JPanel implements Runnable {
         if (gameState == pauseState) {
             // NIC NIE ROBIMY
         }
-
+        if (monster[0] == null) {
+            monstersDead = true;
+        }
+        if (player.HP == 0){
+            outOfLives = true;
+        }
+        if((monstersDead || outOfLives) && endCount != 1){
+            endCount = 1;
+            gameState = endGameState;
+        }
     }
 
     // public void drawTempScreen(){

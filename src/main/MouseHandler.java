@@ -30,12 +30,9 @@ public class MouseHandler extends MouseAdapter implements Runnable {
             try {
                 clicked = false;
                 // aimed = false;
-                // System.out.print("mouseevt");
-                // System.out.println(mPosition.getX());
-                Thread.sleep(100); // Adjust the sleep time as needed
+                Thread.sleep(100);
                 // aimed=false;
-
-                System.out.println(aimed + " " + aimedMonsterId + " " + gb.monster.length);
+                //System.out.println(aimed + " " + aimedMonsterId + " " + gb.monster.length);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
