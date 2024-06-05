@@ -23,7 +23,7 @@ public class Sound {
 
     // konstruktor klasy
     public Sound() {
-        soundFile = new File("res/sound/Ain't that a kick in the head.wav");
+        soundFile = new File("res/sound/jazzmusic.wav");
     }
 
     // metoda do okreslania pliku zrodlowego z muzyka
