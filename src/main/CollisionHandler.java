@@ -67,7 +67,7 @@ public class CollisionHandler {
 
     public int checkObject(Entity entity, boolean player){
 
-        int index = 999;
+        int index = 100;
 
         for(int i = 0; i < gb.obj.length; i++){
 
@@ -139,7 +139,7 @@ public class CollisionHandler {
 
     public int checkEntity(Entity entity, Entity[] target){
 
-        int index = 999;
+        int index = 100;
 
         for(int i = 0; i < target.length; i++){
 

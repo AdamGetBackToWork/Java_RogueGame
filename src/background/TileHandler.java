@@ -1,46 +1,52 @@
+// Klasa do zarzadzania (handle'owania) wszystkimi plytkami tla, 
+// Od razu mowie, ta klasa nie jest ciekawa...
+// Sprowadza sie do: inicjalizacja plytki -> pobrania grafiki -> wypelnienia plytki -> nadania charakteru kolizyjnosci plytce
+// Dopiero ciekawe jest wczytywanie mapy, ok. 300 linijki :)
+
 package background;
-// package Projekt.src.bgr;
 
-import main.GameBoard;
-
+// importy javy
 import java.awt.Graphics2D;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 
+// importy projektowe
+import main.GameBoard;
+
+// cialo klasy
 public class TileHandler {
     
     GameBoard gb;
+
+    // do inicjalizacji i indeksacji kolejnych plytek
     public Tile[] tile;
     public int tileNum[][];
 
+    // konstruktor klasy
     public TileHandler(GameBoard gb){
 
         this.gb = gb;
-        tile = new Tile[1000]; // Number of diff tiles in a game
+
+        // tutaj prezycujemy ilosc ROZNYCH plytek w grze, na pewno ponizej 1000, ale cos musialem dac....
+        tile = new Tile[1000]; 
         tileNum = new int[gb.maxWorldCol][gb.maxWorldRow];
 
+        // pobieranie obrazkow
         getTileImage();
+        // wczytywanie mapy
         loadMap("res\\maps\\map50x50.txt");
     }
 
     public void getTileImage(){
         
-        // String testPath1 = "res\\background\\ground.png";
-        // String testPath2 = "res\\background\\stone.png";
-        // String testPath3 = "res\\background\\bricks.png";
-        // String testPath4 = "res\\background\\black.png";
-
-        // File file0 = new File("res\\background\\ground.png");
-        // File file1 = new File("res\\background\\stone.png");
-        // File file2 = new File("res\\background\\bricks.png");
-        // File file3 = new File("res\\background\\black.png");
+        // plytka plytek - czarne pole 
         File BLACK = new File("res\\tiles\\palette_colors\\(non-palette)black.png");
+
+        // POBIERANIE OBRAZKOW - ladnie posortowane
+
         // TILES
             // BUILDINGS
                 // DARKHOUSE
@@ -121,31 +127,9 @@ public class TileHandler {
             File fileRoadTopRight = new File("res\\tiles\\roads\\road-toprightend.png");
             // 33
         try {
-            /* TUTAJ WYKOMENTOWAŁEM BO NIZEJ W PETLI TO SAMO ROBIMY
-            tile[0] = new Tile();
-            tile[1] = new Tile();
-            tile[2] = new Tile();
-            tile[3] = new Tile();
-            */
-            // zmienilem na 99 zeby byc bezpiecznym na ten moment z zakresem
             for (int i = 0; i <= 99; i++) {
                 tile[i] = new Tile();
             }
-            
-            /* 
-            tile[0].image = ImageIO.read(file0);  
-            tile[1].image = ImageIO.read(file1); 
-            tile[2].image = ImageIO.read(file2); 
-            
-            tile[3].image = ImageIO.read(file3); 
-            tile[3].collision = true;
-*/
-            //loading eachfile 
-
-            //na ten moment bez: (todo)
-            // drzwi bundykow i zapalonych swiatel
-            // ladnych chodnikow (zaokrąglenia)
-            // zaokraglen ulicy
             tile[0].image = ImageIO.read(BLACK);
             tile[0].collision = true;
             //light house roof - 1
@@ -168,7 +152,6 @@ public class TileHandler {
             tile[17].collision = true;
             tile[18].collision = true;
             
-            
             //light house blocks - 6
             tile[60].image = ImageIO.read(fileLightBuildFLoorMiddle);
             tile[61].image = ImageIO.read(fileLightBuildFloorLeft);
@@ -179,6 +162,7 @@ public class TileHandler {
             tile[66].image = ImageIO.read(fileLightBuildFloorRight);
             tile[67].image = ImageIO.read(fileLightBuildParterLeft);
             tile[68].image = ImageIO.read(fileLightBuildParterRight);
+            
             // door and lights on 
             tile[90].image = ImageIO.read(fileLightBuildParterDoor);
             tile[91].image = ImageIO.read(fileLightBuildFloorDoor2);
@@ -193,7 +177,6 @@ public class TileHandler {
             tile[68].collision = true;
             tile[90].collision = true;
             tile[91].collision = true;
-
 
             //pavement - to do -> change map
             tile[20].image = ImageIO.read(filePavement1);
@@ -211,7 +194,6 @@ public class TileHandler {
             tile[82].image = ImageIO.read(filePavement1InwBottomLeft);
             tile[83].image = ImageIO.read(filePavement1InwBottomRight);
             tile[92].image = ImageIO.read(filePavement2);
-
 
             // road
             // to do: manhole + inverse
@@ -272,61 +254,42 @@ public class TileHandler {
             // to do : rest of blocks
             tile[99].image = ImageIO.read(cobble1);
 
-
-
-            // tile[0].image = ImageIO.read(getClass().getResourceAsStream(testPath1));
-            // tile[0].image = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
-            // tile[1].image = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
-            // tile[2].image = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
-            // tile[3].image = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
-            
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // public void loadMap(){
-
-    //     String testMapPath = "Projekt\\res\\maps\\testmap.txt";
-
-    //     try {
-            
-    //         // InputStream is = getClass().getClassLoader().getResource(testMapPath);
-    //         Scanner is = new Scanner(getClass().getResourceAsStream(testMapPath));
-            
-    //         //InputStream is = getClass().getResourceAsStream(testMapPath);
-            
-    //         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-    //         int col = 0;
-    //         int row = 0;
-
-    //         while (col < gb.screenColumns && row < gb.screenRows){
-    //             String  line = br.readLine();
-                
-    //             while(col < gb.screenColumns){
-    //                 String numbers[] = line.split(" ");
-    //                 int num = Integer.parseInt(numbers[col]);
-
-    //                 tileNum[col][row] = num;
-    //                 col++;
-    //             }
-    //             if(col == gb.screenColumns){
-    //                 col = 0;
-    //                 row++;
-    //             }
-    //         }
-    //         br.close();
-
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    // }
-
+    // wczytywanie mapy z pliku tekstowego
     public void loadMap(String mapfile) {
         String testMapPath = mapfile;
 
+        try (Scanner scanner = new Scanner(new File(testMapPath))) {
+        int col = 0;
+        int row = 0;
+
+        // rozdzial wartosci w pliku
+        while (scanner.hasNextLine() && row < gb.maxWorldRow) {
+            String line = scanner.nextLine();
+            String[] numbers = line.split("\\s+");
+
+            // pobiera liczbe z pliku w danym miejscu i przypisuje jej miejscu w macierzy (tileNum) odpowiedni index
+            for (String number : numbers) {
+                if (col < gb.maxWorldCol) {
+                    int num = Integer.parseInt(number);
+                    tileNum[col][row] = num;
+                    col++;
+                } else {
+                    break;
+                }
+            }
+            col = 0;
+            row++;
+        }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // ZOSTAWIAMY TO TUTAJ WYKOMENTOWANE BO MOZE SIE PRZYDAC
         // try {
 
         //     InputStream is = getClass().getResourceAsStream(testMapPath);
@@ -381,43 +344,15 @@ public class TileHandler {
         //     e.printStackTrace();
         // }
 
-        try (Scanner scanner = new Scanner(new File(testMapPath))) {
-        int col = 0;
-        int row = 0;
-
-        while (scanner.hasNextLine() && row < gb.maxWorldRow) {
-            String line = scanner.nextLine();
-            String[] numbers = line.split("\\s+");
-
-            for (String number : numbers) {
-                if (col < gb.maxWorldCol) {
-                    int num = Integer.parseInt(number);
-                    tileNum[col][row] = num;
-                    col++;
-                } else {
-                    break; // Stop processing the line if we've reached the column limit
-                }
-            }
-
-            col = 0; // Reset column count for the next row
-            row++;
-        }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
     }
 
-
-    }
-
-
+    // metoda do rysowania mapy na podstawie pliku tekstowego
     public void draw(Graphics2D g2){
-       
-        // g2.drawImage(tile[0].image, 0,0,gb.finalTileSize,gb.finalTileSize,null);
         
         int worldCol = 0; 
         int worldRow = 0;
 
-
+        // tak samo jak wszedzie indziej, rysujemy jesli jest w obrebie widoku gracza, tutaj tylko zczytujemy z macierzy index i stad petla, by przez cala przejsc
         while (worldCol < gb.maxWorldCol && worldRow < gb.maxWorldRow){
             
             int drawTileNum = tileNum[worldCol][worldRow];

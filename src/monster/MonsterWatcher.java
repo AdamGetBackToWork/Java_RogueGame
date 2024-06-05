@@ -1,20 +1,29 @@
+// Podklasa Entity, jedna z jej realizacji 
+// Stworzona do reprezentacji potworow
+
 package monster;
 
+// importy javy
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-
 import javax.imageio.ImageIO;
 
+// importy projektowe
 import entity.Entity;
 import main.GameBoard;
 
+// cialo klasy
 public class MonsterWatcher extends Entity{
 
+    // konstruktor klasy
     public MonsterWatcher(GameBoard gb){
+        
+        // wywolanie z klasy parent powiazania gameboarda
         super(gb);
 
+        // pola potwora
         direction = "down";
         name = "Watcher";
         moveSpeed = 1;
@@ -22,21 +31,26 @@ public class MonsterWatcher extends Entity{
         HP = maxHP;
         entityType = 1;
 
+        // okreslenia hitboxow
         solidRectangle = new Rectangle(0,0,gb.finalTileSize,gb.finalTileSize);
-        solidRectangle.x = 3;
-        solidRectangle.y = 18;
-        solidRectangle.width = 42;
-        solidRectangle.height = 42;
+        solidRectangle.x = 5;
+        solidRectangle.y = 5;
+        solidRectangle.width = 2*gb.finalTileSize - 15;
+        solidRectangle.height = 2*gb.finalTileSize - 15;
 
         solidAreaX = solidRectangle.x;
         solidAreaY = solidRectangle.y;
 
+        // pobranie grafiki i ustawienie wydarzen
         getMonsterGraphic();
         setAction();
     }
 
+    // metoda pobierania grafiki potwora
     public void getMonsterGraphic(){
+
         File file01 = new File("res\\\\monster\\\\monster.png");
+
         try {
             imageMonster = ImageIO.read(file01); 
 
@@ -45,10 +59,14 @@ public class MonsterWatcher extends Entity{
         }
     }
 
+    // metoda ustawienia akcji chodzenia potwora
     public void setAction(){
 
+        // inkrementacja przy kazdym wywolaniu 
+        // pole do okreslenia wstrzymania kierunku poruszania sie potwora
         actionLockCounter++;
 
+        // przy odczekaniu 2s, ponowne losowanie kierunku, dalej poruszanie w tym kierunku
         if(actionLockCounter == 120){
 
             Random random = new Random();
@@ -68,12 +86,5 @@ public class MonsterWatcher extends Entity{
             }
             actionLockCounter = 0;
         }
-
     }
-    
-
-    // public void getImage(){
-    //     File monsterImage1 = new File("res\\monster\\monster.png");
-    //     image = setup(monsterImage1);
-    // }
 }

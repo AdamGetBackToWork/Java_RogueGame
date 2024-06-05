@@ -1,32 +1,38 @@
+// Podklasa Entity, jedna z jej realizacji 
+// Stworzona do reprezentacji postaci gracza
+
 package entity;
 
+// importy javy
 import java.awt.AlphaComposite;
-
-// package Projekt.src.entity;
-
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-// import java.awt.Color;
-
 import javax.imageio.ImageIO;
 
+// importy projektowe
 import main.GameBoard;
 import main.KeyHandler;
 
 public class Player extends Entity{
     
+    // w celu przyjmowania inputu z klawiatury (do zmiany sprite'a gracza)
     KeyHandler kh; 
 
+    // niezmienne rozmiary ekranu
     public final int screenX;
     public final int screenY;
+
+    // flagi statusu postaci gracza
     int hasHeart = 0;
     int hasGun = 0;
 
+    // czesto zmieniany bufor obrazu gracza
     private volatile BufferedImage lastDrawnSprite; 
 
+    // konstruktor klasy
     public Player(GameBoard gb, KeyHandler kh){
         
         super(gb);
@@ -40,63 +46,43 @@ public class Player extends Entity{
         solidAreaX = solidRectangle.x;
         solidAreaY = solidRectangle.y;
 
+        // ustawienia bazowe - pobranie grafiki
         setDefault();
         getPlayerGraphic();
 
+        // od czegos trzeba zaczac (od jakiegos obrazka ;). )
         lastDrawnSprite = down1;
     }
 
+    // metoda do pobierania grafiki gracza
     public void getPlayerGraphic(){
         
-        // String testPath1 = "res\\player\\mafia1_up_1.png";
-        // String testPath2 = "res\\player\\mafia1_down_1.png";
-        // String testPath3 = "res\\player\\mafia1_left_1.png";
-        // String testPath4 = "res\\player\\mafia1_right_1.png";
-
-        // Going up - back of the player
+        // chodzenie do gory - plecki gracza
         File file01 = new File("res\\player\\back\\back1.png");
         File file02 = new File("res\\player\\back\\back2.png");
         File file03 = new File("res\\player\\back\\back1.png");
         File file04 = new File("res\\player\\back\\back4.png");
 
-        // Going down - front of the player
+        // chodzenie do dolu - front gracza
         File file11 = new File("res\\player\\front\\front1.png");
         File file12 = new File("res\\player\\front\\front2.png");
         File file13 = new File("res\\player\\front\\front1.png");
         File file14 = new File("res\\player\\front\\front4.png");
 
-        // Going left - left side of the player
+        // chodzenie w lewo - lewa strona gracza
         File file21 = new File("res\\player\\left\\left1.png");
         File file22 = new File("res\\player\\left\\left2.png");
         File file23 = new File("res\\player\\left\\left1.png");
         File file24 = new File("res\\player\\left\\left4.png");
 
-        // Going right - right side of the player
+        // chodzenie w prawo - prawa strona gracza
         File file31 = new File("res\\player\\right\\right1.png");
         File file32 = new File("res\\player\\right\\right2.png");
         File file33 = new File("res\\player\\right\\right1.png");
         File file34 = new File("res\\player\\right\\right4.png");
 
+        // try-catch do wczytywania obrazow z projektu
         try {
-            // up1 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
-            // up2 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
-            // up3 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
-            // up4 = ImageIO.read(getClass().getClassLoader().getResource(testPath2));
-
-            // down1 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
-            // down2 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
-            // down3 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
-            // down4 = ImageIO.read(getClass().getClassLoader().getResource(testPath1));
-
-            // left1 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
-            // left2 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
-            // left3 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
-            // left4 = ImageIO.read(getClass().getClassLoader().getResource(testPath3));
-
-            // right1 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
-            // right2 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
-            // right3 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
-            // right4 = ImageIO.read(getClass().getClassLoader().getResource(testPath4));
 
             up1 = ImageIO.read(file01); 
             up2 = ImageIO.read(file02);
@@ -123,6 +109,7 @@ public class Player extends Entity{
         }
     }
 
+    // metoda do przywracania bazowych ustawien gracza
     public void setDefault(){
         worldX = gb.finalTileSize * 10;
         worldY = gb.finalTileSize * 15;
@@ -132,10 +119,14 @@ public class Player extends Entity{
         HP = maxHP;
     }
 
+    // metoda do aktualizacji gracza, w tym:
+    //      - kolizji
+    //      - grafiki
+    //      - wystapienia zdarzenia
     public void update(){
 
+        // input z klawaiatury przerzucony na kierunkowosc
         if (kh.upPress == true || kh.downPress == true || kh.leftPress == true || kh.rightPress == true){
-            
             if(kh.upPress == true){
                 direction = "up";
             }
@@ -149,20 +140,26 @@ public class Player extends Entity{
                 direction = "right";
             }
 
+            // inkrementacja grafiki - sprite'a gracza
             spriteCount++;
+
+            // bazowe ustawienie stanu kolizji
             collisionState = false;
 
             // sprawdzanie kolizji z blokami
             gb.collisionHandler.checkTile(this);
 
+            // interakcja z potworami - wywolanie sprawdzenia czy nie weszlismy z nimi w interakcje
             int monIndex = gb.collisionHandler.checkEntity(this, gb.monster);
             interactMonster(monIndex);
 
+            //
             int objIndex = gb.collisionHandler.checkObject(this, true);
     
             // sprawdzanie wystapienia eventu
             gb.eh.checkEvent();
     
+            // jesli nie dotykamy nic (nie wystepuje kolizja) to zmiana pozycji swiata wzgledem postaci
             if(collisionState == false){
                 switch(direction){
                     case "up":
@@ -183,6 +180,7 @@ public class Player extends Entity{
             }
         }
 
+        // przemiatanie roznych grafik w celu animacji ruchu
         if(spriteCount > 8){
             if(spriteNum == 1){
                 spriteNum = 2;
@@ -199,6 +197,8 @@ public class Player extends Entity{
             System.out.println(spriteNum);
             spriteCount = 0;
         }
+
+        // obsluga nietykalnosci
         if(immune == true){
             immuneCount++;
             if(immuneCount > 60){
@@ -208,9 +208,10 @@ public class Player extends Entity{
         }
     }
 
+    // metoda na przyszlosc haha, do podnoszenia broni i dodania zycia :)
     public void takeObject(int i){
 
-        if(i != 999){
+        if(i != 100){
             String objectName = gb.obj[i].name;
 
             switch(objectName){
@@ -227,9 +228,10 @@ public class Player extends Entity{
         }
     }
 
+    // metoda do wywolania sprawdzenia kolizji z potworami - w celu zastosowania nietykalnosci
     public void interactMonster(int monIndex){
 
-        if(monIndex != 999){
+        if(monIndex != 100){
             if(immune == false){
                 HP -= 1;
                 immune = true;
@@ -238,6 +240,8 @@ public class Player extends Entity{
 
     }
 
+    // metoda do rysowania grafiki gracza, w zaleznosci od szybko zmiennej spriteNum,
+    // zmieniamy sprite'a by zasymulowac animacje chodzenia 
     public void draw(Graphics2D g2){
 
         BufferedImage image = null;
@@ -300,14 +304,17 @@ public class Player extends Entity{
             }
             break;
         default:
+            // dodane, by nie wracac do "down1" po puszczeniu klawisza, nie wiem czy to super optymalne ale dziala :)
             image = lastDrawnSprite;
             break;                
         }
 
+        // naniesienie przezroczystosci na gracza
         if(immune == true){
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         }
 
+        // No i rysowanie
         g2.drawImage(image,screenX,screenY - 1*gb.finalTileSize,gb.finalTileSize,gb.finalTileSize,null);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
         lastDrawnSprite = image;
