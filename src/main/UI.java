@@ -105,6 +105,9 @@ public class UI {
             drawPlayScreen();
             drawPauseScreen();
         }
+        if(gb.gameState == gb.endGameState){
+            drawEndScreen();
+        }
         // if(gb.gameState == gb.menuKBState){
         //     drawMenuKBScreen();
         // }
@@ -182,6 +185,7 @@ public class UI {
             g2.drawString(String.valueOf(monsterCounter), 10*gb.finalTileSize+temp2, temp+temp2+temp5);
     }
 
+    public void drawEndScreen(){}
     public void drawTitleScreen() {
 
         int temp2 = (int) (0.2*gb.finalTileSize);

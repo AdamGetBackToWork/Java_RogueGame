@@ -82,6 +82,8 @@ public class GameBoard extends JPanel implements Runnable {
     // wywołanie konstruktora od Event Handlera
     public EventHandler eh = new EventHandler(this);
 
+
+    // chaotycznie podpisane gamestate
     public int gameState;
     public final int titleState = 0;
     public final int playState = 1;
@@ -90,6 +92,7 @@ public class GameBoard extends JPanel implements Runnable {
     public final int endState = 4;
     public final int menuKBState = 6;
     public final int maybeQuitState = 7;
+    public final int endGameState = 99;
 
     private final MousePosition mousePosition;
     private BufferedImage crosshair,crosshairHit, magnum;
