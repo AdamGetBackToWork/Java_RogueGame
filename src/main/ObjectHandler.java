@@ -139,8 +139,8 @@ public class ObjectHandler {
     // metoda do stawiania potwora na mapie
     public void setMonster() {
         gb.monster[0] = new MonsterWatcher(gb);
-        gb.monster[0].worldX = gb.finalTileSize * 22;
-        gb.monster[0].worldY = gb.finalTileSize * 22;
+        gb.monster[0].worldX = gb.finalTileSize * 27;
+        gb.monster[0].worldY = gb.finalTileSize * 32;
 
     }
 }
