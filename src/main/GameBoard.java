@@ -172,6 +172,7 @@ public class GameBoard extends JPanel implements Runnable {
         long timer = 0;
         long drawCount = 0;
         boolean wrongKeyMessagePrinted = false;
+        
 
         while (gameThread != null) {
             currentTime = System.nanoTime();
@@ -310,6 +311,7 @@ public class GameBoard extends JPanel implements Runnable {
 
         if (gameState == titleState) {
             ui.draw(g2);
+
         } else {
             th.draw(g2);
             player.draw(g2);

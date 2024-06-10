@@ -29,6 +29,9 @@ import java.text.DecimalFormat;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.BasicStroke;
+import javax.swing.Timer;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import object.ObjectGun;
 import object.ObjectHeart;
@@ -38,7 +41,7 @@ public class UI {
 
     GameBoard gb;
     Graphics2D g2;
-    Font arial_10, arial_20, OCR_A_Extended_80, OCR_A_Extended_40, OCR_A_Extended_30, OCR_A_Extended_20;
+    Font arial_10, arial_20, OCR_A_Extended_80, OCR_A_Extended_40, OCR_A_Extended_30, OCR_A_Extended_20,OCR_A_Extended_15;
 
     public BufferedImage playerImage, gunImage, monsterImage, fullHeart, halfHeart, emptyHeart;
     public String message = "";
@@ -48,6 +51,9 @@ public class UI {
     public int commandNum = 0;
     public int commandNumTitle = 0;
     public int commandNumEnd = 0;
+
+    private Timer messageTimer;
+    private int messageDuration = 5000;
 
     private int monsterCounter = 0;
 
@@ -68,6 +74,7 @@ public class UI {
         OCR_A_Extended_40 = new Font("OCR A Extended", Font.PLAIN, 40);
         OCR_A_Extended_20 = new Font("OCR A Extended", Font.PLAIN, 20);
         OCR_A_Extended_30 = new Font("OCR A Extended", Font.PLAIN, 30);
+        OCR_A_Extended_15 = new Font("OCR A Extended", Font.PLAIN, 15);
         OCR_A_Extended_80 = new Font("OCR A Extended", Font.PLAIN, 80);
 
         ObjectGun gun = new ObjectGun();
@@ -76,6 +83,18 @@ public class UI {
         fullHeart = heart.image;
         halfHeart = heart.image2;
         emptyHeart = heart.image3;
+
+        // messageTimer = new Timer(messageDuration, new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         messageShowing = false;
+        //         // Stop the timer when the message duration has elapsed
+        //         messageTimer.stop();
+        //         gb.repaint();
+        //     }
+        // });
+        // messageTimer.setRepeats(false); 
+        // startGame();
     }
 
     private void getPlayerGraphic() {
@@ -86,6 +105,8 @@ public class UI {
             e.printStackTrace();
         }
     }
+
+    
 
     private void getMonsterGraphic() {
 
@@ -98,12 +119,24 @@ public class UI {
 
     }
 
-    public void showMessage(String text) {
+    // public void showMessage(String text) {
+    //     message = text;
+    //     messageShowing = true;
+    //     messageTimer.start();
+    // }
 
-        message = text;
-        messageShowing = true;
-
-    }
+    // public void startGame() {
+    //     // Start the game
+    //     // Set a timer to show the message after 5 seconds
+    //     Timer delayTimer = new Timer(5000, new ActionListener() {
+    //         @Override
+    //         public void actionPerformed(ActionEvent e) {
+    //             showMessage("Your message here");
+    //         }
+    //     });
+    //     delayTimer.setRepeats(false);
+    //     delayTimer.start();
+    // }
 
     // modify it for player sprite, gun sprite, ammo and stuff
     public void draw(Graphics2D g2) {
@@ -144,6 +177,7 @@ public class UI {
         int temp3 = (int) (10 * gb.finalTileSize + gb.finalTileSize / 4);
         int temp4 = (int) (2 * gb.finalTileSize - 0.5 * gb.finalTileSize);
         int temp5 = (int) (0.25 * gb.finalTileSize);
+        int temp6 = (int) (0.2 * gb.finalTileSize);
 
         g2.setFont(arial_10);
         g2.setColor(Color.ORANGE);
@@ -204,7 +238,23 @@ public class UI {
 
         // rysowanie ilosci zabitych potworow
         g2.drawString(String.valueOf(monsterCounter), 10 * gb.finalTileSize + temp2, temp + temp2 + temp5);
+
+        g2.setFont(OCR_A_Extended_15);
+        g2.setColor(txtColor);
+        String text = "Objective: Find and Kill the monster.";
+        x = 2*gb.finalTileSize;
+        y = temp;
+        // x = centerText(text);
+        // y = gb.finalTileSize;
+        g2.drawString(text, x, y);
     }
+
+    // private void drawMessage() {
+    //     g2.setFont(OCR_A_Extended_20);
+    //     g2.setColor(Color.YELLOW);
+
+    //     g2.drawString(message, x, y);
+    // }
 
     public void drawEndScreen() {
 
@@ -219,9 +269,51 @@ public class UI {
 
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
-        drawEndChoice(frameX, frameY);
+        if (gb.player.HP == 0){
+            drawEndChoice(frameX, frameY);
+        } else {
+            drawPositiveEndChoice(frameX,frameY);
+        }
+
 
         gb.kh.enterPress = false;
+
+    }
+
+    public void drawPositiveEndChoice(int frameX, int frameY) {
+
+        int temp = (int) (0.5 * gb.finalTileSize);
+        int temp2 = (int) (0.4 * gb.finalTileSize);
+        int temp3 = (int) (2 * gb.finalTileSize / 5);
+
+        // Draw top strings
+        Color c = new Color(247, 214, 169);
+        g2.setColor(c);
+
+        g2.setFont(OCR_A_Extended_40);
+        String text = "YOU WIN!";
+        int textY = gb.screenHeight / 2 - gb.finalTileSize * 3;
+        int textX = centerText(text);
+        g2.drawString(text, textX, textY);
+
+        g2.setFont(OCR_A_Extended_30);
+        
+        text = "Congrats!";
+        textY = gb.screenHeight / 2 - gb.finalTileSize * 1;
+        textX = centerText(text);
+        g2.drawString(text, textX, textY);
+
+        // End game
+        textY = gb.screenHeight / 2 + 3 * gb.finalTileSize;
+        text = "Quit Game";
+        int textX3 = centerText(text);
+        g2.drawString(text, textX3, textY);
+        if (commandNumEnd == 0) {
+            g2.drawString(">", textX3 - temp, textY);
+            if (gb.kh.enterPress == true) {
+                commandNumEnd = 0;
+            }
+        }
 
     }
 
