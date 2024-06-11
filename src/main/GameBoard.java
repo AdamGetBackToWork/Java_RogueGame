@@ -87,6 +87,7 @@ public class GameBoard extends JPanel implements Runnable {
     // momencie
     public THEObject obj[] = new THEObject[50];
     // wywołanie konstruktora od powtworow
+    private monstersKilled=0;
     private final int maxMonsters = 6;
     private final int minMonsters = 3;
     public int randomMonsterCount = (int)(Math.random() * ((maxMonsters - minMonsters) + 1)) + minMonsters;
@@ -223,7 +224,7 @@ public class GameBoard extends JPanel implements Runnable {
     // Metoda do sprawdzania skonczenia rozgrywki - do wywolania przy kazdym update gry
     private void checkEndCondition() {
         // zabijamy potwory "od tylu", dlatego koniec gry definiuje usuniecie pierwszego potwora
-        if (monster[0] == null) {
+        if (monstersKilled == randomMonsterCount) {
             monstersDead = true;
         }
         if (player.HP == 0) {
@@ -257,6 +258,7 @@ public class GameBoard extends JPanel implements Runnable {
                     monster[i].update();
                     if (monster[i].HP <= 0) {
                         monster[i].deleteInstance(monster, i);
+                        monstersKilled++;
                     }
                 }
             }
