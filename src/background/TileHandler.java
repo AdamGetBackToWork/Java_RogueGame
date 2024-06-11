@@ -152,6 +152,7 @@ public class TileHandler {
             tile[17].collision = true;
             tile[18].collision = true;
             
+            
             //light house blocks - 6
             tile[60].image = ImageIO.read(fileLightBuildFLoorMiddle);
             tile[61].image = ImageIO.read(fileLightBuildFloorLeft);
@@ -162,6 +163,8 @@ public class TileHandler {
             tile[66].image = ImageIO.read(fileLightBuildFloorRight);
             tile[67].image = ImageIO.read(fileLightBuildParterLeft);
             tile[68].image = ImageIO.read(fileLightBuildParterRight);
+            tile[95].image = ImageIO.read(fileLightBuildFloorMiddleLights);
+            tile[95].collision = true;
             
             // door and lights on 
             tile[90].image = ImageIO.read(fileLightBuildParterDoor);
@@ -251,6 +254,10 @@ public class TileHandler {
             tile[57].collision = true;
             tile[58].collision = true;
             tile[59].collision = true;
+            tile[93].image = ImageIO.read(fileDarkBuildRoofAC);
+            tile[93].collision = true;
+            tile[94].image = ImageIO.read(fileDarkBuildFloorMiddleLights);
+            tile[94].collision = true;
             // to do : rest of blocks
             tile[99].image = ImageIO.read(cobble1);
 

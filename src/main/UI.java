@@ -84,6 +84,8 @@ public class UI {
         halfHeart = heart.image2;
         emptyHeart = heart.image3;
 
+        this.monsterCounter = gb.randomMonsterCount;
+
         // messageTimer = new Timer(messageDuration, new ActionListener() {
         //     @Override
         //     public void actionPerformed(ActionEvent e) {
@@ -230,18 +232,13 @@ public class UI {
         g2.setColor(txtColor);
         g2.drawString("X", 10 * gb.finalTileSize, temp + temp2 + temp5);
 
-        // inkrementacja zliczania ilosci zabitych potworow w celu wyswietlenia ich w UI
-        // dla jednego przeciwnika na mapie
-        if (gb.monster[0] == null) {
-            monsterCounter = 1;
-        }
 
         // rysowanie ilosci zabitych potworow
         g2.drawString(String.valueOf(monsterCounter), 10 * gb.finalTileSize + temp2, temp + temp2 + temp5);
 
         g2.setFont(OCR_A_Extended_15);
         g2.setColor(txtColor);
-        String text = "Objective: Find and Kill the monster.";
+        String text = "Objective: Find and exterminate monsters IN A GIVEN ORDER.";
         x = 2*gb.finalTileSize;
         y = temp;
         // x = centerText(text);
@@ -255,6 +252,11 @@ public class UI {
 
     //     g2.drawString(message, x, y);
     // }
+
+    // setter ikrementujący wartość monster counter, wywolywany przy każdym pokonanym przeciwniku
+    public void incMonsterCounter(){
+        this.monsterCounter--;
+    }
 
     public void drawEndScreen() {
 

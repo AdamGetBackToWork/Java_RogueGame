@@ -138,9 +138,30 @@ public class ObjectHandler {
 
     // metoda do stawiania potwora na mapie
     public void setMonster() {
-        gb.monster[0] = new MonsterWatcher(gb);
-        gb.monster[0].worldX = gb.finalTileSize * 27;
-        gb.monster[0].worldY = gb.finalTileSize * 32;
+        for (int i = 0; i < gb.randomMonsterCount-1; i++) {
+            int max = 45;
+            int min = 5;
+            int randomx = (int) (Math.random() * ((max - min) + 1)) + min;
+            int randomy = (int) (Math.random() * ((max - min) + 1)) + min;
 
+            gb.monster[i] = new MonsterWatcher(gb);
+            gb.monster[i].worldX = gb.finalTileSize * randomx;
+            gb.monster[i].worldY = gb.finalTileSize * randomy;
+        }
+        /* 
+        gb.monster[0] = new MonsterWatcher(gb);
+        gb.monster[0].worldX = gb.finalTileSize * 15;
+        gb.monster[0].worldY = gb.finalTileSize * 15;
+        gb.monster[3] = new MonsterWatcher(gb);
+        gb.monster[3].worldX = gb.finalTileSize * 27;
+        gb.monster[3].worldY = gb.finalTileSize * 32;
+
+        gb.monster[1] = new MonsterWatcher(gb);
+        gb.monster[1].worldX = gb.finalTileSize * 35;
+        gb.monster[1].worldY = gb.finalTileSize * 25;
+        gb.monster[2] = new MonsterWatcher(gb);
+        gb.monster[2].worldX = gb.finalTileSize * 40;
+        gb.monster[2].worldY = gb.finalTileSize * 40;
+        */
     }
 }

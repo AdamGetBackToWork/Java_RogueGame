@@ -69,6 +69,9 @@ public class GameBoard extends JPanel implements Runnable {
     TileHandler th = new TileHandler(this);
     KeyHandler kh = new KeyHandler(this);
     Sound sound = new Sound();
+    public InGameSound gunshots = new InGameSound("gunshots");
+    public InGameSound hittaken = new InGameSound("hittaken");
+
 
     // WĄTKI:
     // wątek gry:
@@ -84,7 +87,10 @@ public class GameBoard extends JPanel implements Runnable {
     // momencie
     public THEObject obj[] = new THEObject[50];
     // wywołanie konstruktora od powtworow
-    public Entity monster[] = new Entity[2];
+    private final int maxMonsters = 6;
+    private final int minMonsters = 3;
+    public int randomMonsterCount = (int)(Math.random() * ((maxMonsters - minMonsters) + 1)) + minMonsters;
+    public Entity monster[] = new Entity[randomMonsterCount];
     // wywołanie konstruktora od User Interface
     public UI ui = new UI(this);
     // wywołanie konstruktora od Event Handlera
@@ -129,6 +135,8 @@ public class GameBoard extends JPanel implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.gunshots.setFile();
+        this.hittaken.setFile();
     }
 
     public void gameSetup() {
@@ -214,6 +222,7 @@ public class GameBoard extends JPanel implements Runnable {
 
     // Metoda do sprawdzania skonczenia rozgrywki - do wywolania przy kazdym update gry
     private void checkEndCondition() {
+        // zabijamy potwory "od tylu", dlatego koniec gry definiuje usuniecie pierwszego potwora
         if (monster[0] == null) {
             monstersDead = true;
         }
@@ -359,8 +368,12 @@ public class GameBoard extends JPanel implements Runnable {
         transform.scale(scale, wscale); // Skalowanie x4 w poziomie, x4 w pionie
         g2.drawImage(magnum, transform, null);
         // g2.drawImage(magnum, player.screenX, player.screenY-48, 48,48,null);
+        
+        
+        //pomocniczy kursor-kolko do pozycji kursora wzgledem postaci
+
         int strokewidth = 20;
-        g2.setColor(Color.RED);
+        g2.setColor(mylightorange);
         g2.drawOval(weaponX, weaponY, 5, 5);
         if (mouseHandler.getClickedStatus()) {
             for (int i = 0; i < 20; i++) {

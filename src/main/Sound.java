@@ -16,6 +16,7 @@ public class Sound {
         Clip clip;
         File soundFile;
         
+        
         // Float Control do kontrolowania zmiany poziomu muzyki 
         FloatControl fc;
         int volumeBar = 3;

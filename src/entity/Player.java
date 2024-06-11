@@ -233,6 +233,7 @@ public class Player extends Entity{
 
         if(monIndex != 100){
             if(immune == false){
+                gb.hittaken.play();
                 HP -= 1;
                 immune = true;
             }

@@ -75,6 +75,8 @@ public class MouseHandler extends MouseAdapter implements Runnable {
             gb.monster[aimedMonsterId].takeDMG(1);
         }
         clicked = true;
+        gb.gunshots.play();
+
     }
 
     public boolean getClickedStatus() {
